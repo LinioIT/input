@@ -1,0 +1,23 @@
+{
+    "name": "linio/input",
+    "description": "Abstracts HTTP request input handling, providing an easy interface for data hydration and validation",
+    "keywords": ["linio", "input", "form"],
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": "~5.4",
+        "symfony/http-foundation": "~2.5",
+        "doctrine/inflector": "1.0.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.5.*"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-4": {
+            "Linio\\Component\\Input\\": "src"
+        }
+    }
+}
