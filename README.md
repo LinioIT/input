@@ -1,5 +1,6 @@
 Linio Input
 ===========
+[![Latest Stable Version](https://poser.pugx.org/linio/input/v/stable.svg)](https://packagist.org/packages/linio/input) [![License](https://poser.pugx.org/linio/input/license.svg)](https://packagist.org/packages/linio/input) [![Build Status](https://secure.travis-ci.org/LinioIT/input.png)](http://travis-ci.org/LinioIT/input)
 
 Linio Input is yet another component of the Linio Framework. It aims to
 abstract HTTP request input handling, allowing a seamless integration with
