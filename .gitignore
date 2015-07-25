@@ -4,3 +4,4 @@ bin/
 composer.phar
 phpunit.xml
 cache.properties
+.php_cs.cache

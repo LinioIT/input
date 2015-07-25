@@ -20,7 +20,7 @@ class FieldNode extends \ArrayObject
     protected $type;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $required = true;
 
@@ -30,13 +30,13 @@ class FieldNode extends \ArrayObject
     protected $constraints = [];
 
     /**
-     * @param string $key Input field key
-     * @param string $type Input field type
-     * @param array $options
+     * @param string $key     Input field key
+     * @param string $type    Input field type
+     * @param array  $options
      */
     public function add($key, $type = self::TYPE_STRING, $options = [])
     {
-        $node = new FieldNode();
+        $node = new self();
         $node->setType($type);
 
         if (isset($options['required'])) {
@@ -61,7 +61,7 @@ class FieldNode extends \ArrayObject
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasChildren()
     {
@@ -69,7 +69,7 @@ class FieldNode extends \ArrayObject
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isObject()
     {
@@ -82,7 +82,7 @@ class FieldNode extends \ArrayObject
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isMixed()
     {
@@ -90,7 +90,7 @@ class FieldNode extends \ArrayObject
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isCollection()
     {
@@ -104,7 +104,7 @@ class FieldNode extends \ArrayObject
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isScalarCollection()
     {
@@ -150,7 +150,7 @@ class FieldNode extends \ArrayObject
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isRequired()
     {
@@ -158,7 +158,7 @@ class FieldNode extends \ArrayObject
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getRequired()
     {
@@ -166,7 +166,7 @@ class FieldNode extends \ArrayObject
     }
 
     /**
-     * @param boolean $required
+     * @param bool $required
      */
     public function setRequired($required)
     {

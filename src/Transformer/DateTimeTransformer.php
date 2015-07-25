@@ -9,7 +9,7 @@ class DateTimeTransformer implements TransformerInterface
         try {
             $date = new \DateTime($value);
         } catch (\Exception $e) {
-            return null;
+            return;
         }
 
         return $date;

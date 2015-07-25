@@ -6,6 +6,7 @@ interface ConstraintInterface
 {
     /**
      * @param string $content
+     *
      * @return bool
      */
     public function validate($content);

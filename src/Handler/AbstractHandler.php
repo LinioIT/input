@@ -2,10 +2,9 @@
 
 namespace Linio\Component\Input\Handler;
 
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Inflector\Inflector;
-use Linio\Component\Input\Transformer\TransformerInterface;
 use Linio\Component\Input\TypeHandler;
+use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractHandler
 {
@@ -54,9 +53,9 @@ abstract class AbstractHandler
     }
 
     /**
-     * @param string $key Request parameter key
-     * @param string $type Request parameter type
-     * @param array $options
+     * @param string $key     Request parameter key
+     * @param string $type    Request parameter type
+     * @param array  $options
      */
     public function add($key, $type = 'string', $options = [])
     {
@@ -77,7 +76,7 @@ abstract class AbstractHandler
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isValid()
     {
@@ -104,7 +103,7 @@ abstract class AbstractHandler
     {
         $response = [];
 
-        /**
+        /*
          * TODO
          *
          * This loop needs some serious refactoring. Each node should have
@@ -131,7 +130,7 @@ abstract class AbstractHandler
                 $collectionType = $item->getCollectionType();
 
                 foreach ($requestData[$key] as $requestItem) {
-                    $instance = new $collectionType;
+                    $instance = new $collectionType();
                     $this->walk($item, $requestItem, $instance);
 
                     if ($parent) {
@@ -170,7 +169,7 @@ abstract class AbstractHandler
 
             if ($item->isObject()) {
                 $class = $item->getType();
-                $instance = new $class;
+                $instance = new $class();
                 $this->walk($item, $requestData[$key], $instance);
 
                 if ($parent) {

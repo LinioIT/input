@@ -2,8 +2,8 @@
 
 namespace Linio\Component\Input;
 
-use Linio\Component\Input\Transformer\TransformerInterface;
 use Linio\Component\Input\Transformer\DateTimeTransformer;
+use Linio\Component\Input\Transformer\TransformerInterface;
 
 class TypeHandler
 {
@@ -11,10 +11,10 @@ class TypeHandler
     protected $typeTransformers = [];
 
     /**
-     * @param callable[] $typeChecks
+     * @param callable[]             $typeChecks
      * @param TransformerInterface[] $typeTransformers
      */
-    public function __construct(array $typeChecks = array(), array $typeTransformers = array())
+    public function __construct(array $typeChecks = [], array $typeTransformers = [])
     {
         foreach ($typeChecks as $typeName => $typeCheck) {
             $this->addTypeCheck($typeName, $typeCheck);
@@ -96,7 +96,7 @@ class TypeHandler
     }
 
     /**
-     * @param string $typeName
+     * @param string                                                  $typeName
      * @param \Linio\Component\Input\Transformer\TransformerInterface $typeTransformers
      */
     public function addTypeTransformer($typeName, TransformerInterface $typeTransformer)

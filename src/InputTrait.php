@@ -11,6 +11,7 @@ trait InputTrait
 
     /**
      * @param string $alias
+     *
      * @return \Linio\Component\Input\Handler\AbstractHandler
      */
     protected function getInputHandler($alias)
