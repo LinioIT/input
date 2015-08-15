@@ -46,4 +46,10 @@ class TypeHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($typeHandler->checkType('email', 'test@foobar.com'));
         $this->assertFalse($typeHandler->checkType('email', 'test'));
     }
+
+    public function testIsAddingTransformer()
+    {
+        $typeHandler = new TypeHandler([], ['my_datetime' => new DateTimeTransformer()]);
+        $this->assertEquals(new \DateTime('2014-01-01 00:00:01'), $typeHandler->convertType('my_datetime', '2014-01-01 00:00:01'));
+    }
 }
