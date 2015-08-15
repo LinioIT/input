@@ -16,6 +16,8 @@ class TypeHandler
      */
     public function __construct(array $typeChecks = [], array $typeTransformers = [])
     {
+        $this->loadDefaults();
+
         foreach ($typeChecks as $typeName => $typeCheck) {
             $this->addTypeCheck($typeName, $typeCheck);
         }
@@ -23,8 +25,6 @@ class TypeHandler
         foreach ($typeTransformers as $typeName => $typeTransformer) {
             $this->addTypeTransformer($typeName, $typeTransformer);
         }
-
-        $this->loadDefaults();
     }
 
     protected function loadDefaults()
