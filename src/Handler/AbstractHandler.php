@@ -3,11 +3,17 @@
 namespace Linio\Component\Input\Handler;
 
 use Doctrine\Common\Inflector\Inflector;
+use Doctrine\Instantiator\Instantiator;
 use Linio\Component\Input\TypeHandler;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractHandler
 {
+    /**
+     * @var Instantiator
+     */
+    protected $instantiator;
+
     /**
      * @var \Linio\Component\Input\TypeHandler
      */
@@ -33,6 +39,7 @@ abstract class AbstractHandler
         $this->typeHandler = $typeHandler;
         $this->root = new FieldNode();
         $this->root->setType('array');
+        $this->instantiator = new Instantiator();
         $this->define();
     }
 
@@ -169,7 +176,7 @@ abstract class AbstractHandler
 
             if ($item->isObject()) {
                 $class = $item->getType();
-                $instance = new $class();
+                $instance = $this->instantiator->instantiate($class);
                 $this->walk($item, $requestData[$key], $instance);
 
                 if ($parent) {

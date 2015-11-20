@@ -46,6 +46,17 @@ class Point
     protected $latitude;
     protected $longitude;
 
+    /**
+     * Empty constructor that requires an argument. This is to help validate
+     * that the AbstractHandler is able to hydrate objects with required
+     * constructor arguments.
+     *
+     * @param $foo
+     */
+    public function __construct($foo)
+    {
+    }
+
     public function getLatitude()
     {
         return $this->latitude;
