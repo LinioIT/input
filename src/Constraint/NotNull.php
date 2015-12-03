@@ -1,23 +1,20 @@
 <?php
+declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
 class NotNull implements ConstraintInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function validate($content)
+    public function validate($content): bool
     {
-        $content = trim($content);
+        if ($content) {
+            $content = trim($content);
+        }
 
         return $content !== null && $content !== '';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getErrorMessage()
+    public function getErrorMessage(): string
     {
         return 'Unexpected empty content';
     }

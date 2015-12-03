@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
@@ -7,28 +8,19 @@ class Enum implements ConstraintInterface
     /**
      * @var array
      */
-    protected $enumValues;
+    protected $enumValues = [];
 
-    /**
-     * @param array $enumValues
-     */
     public function __construct(array $enumValues)
     {
         $this->enumValues = $enumValues;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function validate($content)
+    public function validate($content): bool
     {
         return in_array($content, $this->enumValues);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getErrorMessage()
+    public function getErrorMessage(): string
     {
         return 'Invalid option for enum. Allowed options are: ' . implode(', ', $this->enumValues);
     }
