@@ -46,6 +46,7 @@ abstract class InputHandler
 
     public function bind(array $input)
     {
+        $this->define();
         $this->output = $this->walk($this->root, $input);
     }
 
@@ -79,7 +80,6 @@ abstract class InputHandler
 
     protected function walk(BaseNode $node, $input)
     {
-        $this->define();
         $result = [];
 
         if (!$node->hasChildren()) {
