@@ -146,7 +146,7 @@ class BaseNode
 
     public function getValue($value)
     {
-        if (!$this->isRequired && !$value) {
+        if (!$value) {
             return $this->default;
         }
 
