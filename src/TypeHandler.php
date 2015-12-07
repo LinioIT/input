@@ -13,6 +13,8 @@ use Linio\Component\Input\Node\NumericNode;
 use Linio\Component\Input\Node\ObjectNode;
 use Linio\Component\Input\Node\ScalarCollectionNode;
 use Linio\Component\Input\Node\StringNode;
+use Linio\Component\Input\Instantiator\InstantiatorInterface;
+use Linio\Component\Input\Instantiator\SetInstantiator;
 
 class TypeHandler
 {
@@ -20,6 +22,11 @@ class TypeHandler
      * @var array
      */
     protected $types;
+
+    /**
+     * @var InstantiatorInterface
+     */
+    protected $defaultInstantiator;
 
     public function __construct()
     {
@@ -34,6 +41,8 @@ class TypeHandler
             'object' => ObjectNode::class,
             'datetime' => DateTimeNode::class,
         ];
+
+        $this->defaultInstantiator = new SetInstantiator();
     }
 
     public function addType(string $name, string $class)
@@ -57,6 +66,7 @@ class TypeHandler
         if ($this->isClassType($name)) {
             $type = new ObjectNode();
             $type->setType($name);
+            $type->setInstantiator($this->defaultInstantiator);
 
             return $type;
         }
@@ -64,6 +74,7 @@ class TypeHandler
         if ($this->isCollectionType($name)) {
             $type = new CollectionNode();
             $type->setType($this->getCollectionType($name));
+            $type->setInstantiator($this->defaultInstantiator);
 
             return $type;
         }

@@ -5,19 +5,29 @@ namespace Linio\Component\Input\Node;
 
 use Linio\Component\Input\TypeHandler;
 use Linio\Component\Input\Constraint\ConstraintInterface;
+use Linio\Component\Input\Instantiator\InstantiatorInterface;
 
 class CollectionNodeTest extends \PHPUnit_Framework_TestCase
 {
     public function testIsGettingValue()
     {
+        $expectedInput = ['timestamp' => 1389312000];
+        $expectedObj = new \DateTime('@1389312000');
+
+        $instantiator = $this->prophesize(InstantiatorInterface::class);
+        $instantiator->instantiate('DateTime', $expectedInput)->willReturn($expectedObj);
+
+        $collectionNode = new CollectionNode();
+        $collectionNode->setInstantiator($instantiator->reveal());
+
         $typeHandler = $this->prophesize(TypeHandler::class);
-        $typeHandler->getType('DateTime')->willReturn(new CollectionNode());
+        $typeHandler->getType('DateTime')->willReturn($collectionNode);
 
         $base = new CollectionNode();
         $base->setTypeHandler($typeHandler->reveal());
         $child = $base->add('foobar', 'DateTime');
         $child->setType('DateTime');
-        $this->assertEquals([new \DateTime('@1389312000')], $child->getValue('foobar', [['timestamp' => 1389312000]]));
+        $this->assertEquals([$expectedObj], $child->getValue('foobar', [$expectedInput]));
     }
 
     /**
