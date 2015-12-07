@@ -47,7 +47,12 @@ abstract class InputHandler
     public function bind(array $input)
     {
         $this->define();
-        $this->output = $this->walk($this->root, $input);
+
+        try {
+            $this->output = $this->walk($this->root, $input);
+        } catch (\RuntimeException $exception) {
+            $this->errors[] = $exception->getMessage();
+        }
     }
 
     public function getData($index = null)
@@ -87,15 +92,19 @@ abstract class InputHandler
         }
 
         foreach ($node->getChildren() as $field => $config) {
-            try {
-                if (!isset($input[$field]) && $config->isRequired()) {
+            if (!array_key_exists($field, $input)) {
+                if ($config->isRequired()) {
                     throw new \RuntimeException('Missing required field: ' . $field);
                 }
 
-                $result[$field] = $config->getValue($this->walk($config, $input[$field]));
-            } catch (\Exception $exception) {
-                $this->errors[] = sprintf('[%s] %s', $field, $exception->getMessage());
+                if (!$config->hasDefault()) {
+                    continue;
+                }
+
+                $input[$field] = $config->getDefault();
             }
+
+            $result[$field] = $config->getValue($field, $this->walk($config, $input[$field]));
         }
 
         return $result;

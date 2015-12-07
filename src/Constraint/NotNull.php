@@ -3,8 +3,13 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
-class NotNull implements ConstraintInterface
+class NotNull extends Constraint
 {
+    public function __construct()
+    {
+        $this->errorMessage = 'Unexpected empty content';
+    }
+
     public function validate($content): bool
     {
         if ($content) {
@@ -12,10 +17,5 @@ class NotNull implements ConstraintInterface
         }
 
         return $content !== null && $content !== '';
-    }
-
-    public function getErrorMessage(): string
-    {
-        return 'Unexpected empty content';
     }
 }

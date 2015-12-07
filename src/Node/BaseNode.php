@@ -91,6 +91,16 @@ class BaseNode
         $this->default = $default;
     }
 
+    public function getDefault()
+    {
+        return $this->default;
+    }
+
+    public function hasDefault(): bool
+    {
+        return (bool) $this->default;
+    }
+
     public function add(string $key, string $type, array $options = []): BaseNode
     {
         $child = $this->typeHandler->getType($type);
@@ -141,16 +151,16 @@ class BaseNode
 
     public function isRequired(): bool
     {
+        if ($this->hasDefault()) {
+            return false;
+        }
+
         return $this->required;
     }
 
-    public function getValue($value)
+    public function getValue(string $field, $value)
     {
-        if (!$value) {
-            return $this->default;
-        }
-
-        $this->checkConstraints($value);
+        $this->checkConstraints($field, $value);
 
         if ($this->transformer) {
             return $this->transformer->transform($value);
@@ -159,11 +169,11 @@ class BaseNode
         return $value;
     }
 
-    protected function checkConstraints($value)
+    protected function checkConstraints(string $field, $value)
     {
         foreach ($this->constraints as $constraint) {
             if (!$constraint->validate($value)) {
-                throw new InvalidConstraintException($constraint->getErrorMessage());
+                throw new InvalidConstraintException($constraint->getErrorMessage($field));
             }
         }
     }

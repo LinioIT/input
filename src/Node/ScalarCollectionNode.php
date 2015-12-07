@@ -7,13 +7,9 @@ use Linio\Component\Input\Exception\InvalidConstraintException;
 
 class ScalarCollectionNode extends BaseNode
 {
-    public function getValue($value)
+    public function getValue(string $field, $value)
     {
-        if (!$value) {
-            return $this->default;
-        }
-
-        $this->checkConstraints($value);
+        $this->checkConstraints($field, $value);
 
         foreach ($value as $scalarValue) {
             if (!call_user_func('is_' . $this->type, $scalarValue)) {

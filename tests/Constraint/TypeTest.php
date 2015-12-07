@@ -23,6 +23,6 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $constraint = new Type('int');
         $this->assertFalse($constraint->validate('test'));
-        $this->assertEquals('Value does not match type: int', $constraint->getErrorMessage());
+        $this->assertEquals('[field] Value does not match type: int', $constraint->getErrorMessage('field'));
     }
 }

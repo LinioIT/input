@@ -23,6 +23,6 @@ class RangeTest extends \PHPUnit_Framework_TestCase
     {
         $constraint = new Range(50, 100);
         $this->assertFalse($constraint->validate(14));
-        $this->assertEquals('Value is not between 50 and 100', $constraint->getErrorMessage());
+        $this->assertEquals('[field] Value is not between 50 and 100', $constraint->getErrorMessage('field'));
     }
 }

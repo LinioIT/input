@@ -6,5 +6,5 @@ namespace Linio\Component\Input\Constraint;
 interface ConstraintInterface
 {
     public function validate($content): bool;
-    public function getErrorMessage(): string;
+    public function getErrorMessage(string $field): string;
 }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
-class Type implements ConstraintInterface
+class Type extends Constraint
 {
     /**
      * @var string
@@ -13,15 +13,11 @@ class Type implements ConstraintInterface
     public function __construct(string $type)
     {
         $this->type = $type;
+        $this->errorMessage = 'Value does not match type: ' . $this->type;
     }
 
     public function validate($content): bool
     {
         return call_user_func('is_' . $this->type, $content);
-    }
-
-    public function getErrorMessage(): string
-    {
-        return 'Value does not match type: ' . $this->type;
     }
 }

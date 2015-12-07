@@ -33,10 +33,10 @@ class StringSizeTest extends \PHPUnit_Framework_TestCase
     {
         $constraint = new StringSize(3);
         $this->assertFalse($constraint->validate('ab'));
-        $this->assertEquals(sprintf('Content out of min/max limit sizes [3, %s]', PHP_INT_MAX), $constraint->getErrorMessage());
+        $this->assertEquals(sprintf('[field] Content out of min/max limit sizes [3, %s]', PHP_INT_MAX), $constraint->getErrorMessage('field'));
 
         $constraint = new StringSize(3, 5);
         $this->assertFalse($constraint->validate('ab'));
-        $this->assertEquals('Content out of min/max limit sizes [3, 5]', $constraint->getErrorMessage());
+        $this->assertEquals('[field] Content out of min/max limit sizes [3, 5]', $constraint->getErrorMessage('field'));
     }
 }

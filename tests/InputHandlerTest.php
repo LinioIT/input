@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input;
 
+use Linio\Component\Input\Instantiator\InstantiatorInterface;
+use Prophecy\Argument;
+
 class TestUser
 {
     public $name;
@@ -43,13 +46,14 @@ class TestInputHandler extends InputHandler
         $this->add('metadata', 'array');
 
         $simple = $this->add('simple', 'array');
-        $simple->add('title', 'string');
+        $simple->add('title', 'string', ['default' => 'Barfoo']);
         $simple->add('size', 'int', ['required' => false, 'default' => 15]);
         $simple->add('date', 'datetime');
 
         $author = $this->add('author', 'Linio\Component\Input\TestUser');
         $author->add('name', 'string');
         $author->add('age', 'int');
+        $author->add('is_active', 'bool', ['required' => false]);
         $related = $author->add('related', 'Linio\Component\Input\TestUser');
         $related->add('name', 'string');
         $related->add('age', 'int');
@@ -73,7 +77,6 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
                 'foo' => 'bar',
             ],
             'simple' => [
-                'title' => 'Barfoo',
                 'date' => '2015-01-01 22:50',
             ],
             'author' => [
@@ -146,7 +149,6 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
     public function testIsHandlingErrors()
     {
         $input = [
-            'title' => 'Foobar',
             'size' => '35',
             'dimensions' => ['11', 22, 33],
             'date' => '2015-01-01 22:50',
@@ -184,10 +186,111 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
         $inputHandler->bind($input);
         $this->assertFalse($inputHandler->isValid());
         $this->assertEquals([
-            '[size] Value does not match type: int',
-            '[dimensions] Value "11" is not of type int',
-            '[title] Missing required field: title',
+            'Missing required field: title',
         ], $inputHandler->getErrors());
-        $this->assertEquals('[size] Value does not match type: int, [dimensions] Value "11" is not of type int, [title] Missing required field: title', $inputHandler->getErrorsAsString());
+        $this->assertEquals('Missing required field: title', $inputHandler->getErrorsAsString());
+    }
+
+    public function testIsHandlingTypeJuggling()
+    {
+        $input = [
+            'title' => '',
+            'size' => 0,
+            'dimensions' => [0, 0, 0],
+            'date' => '2015-01-01 22:50',
+            'metadata' => [
+                'foo' => 'bar',
+            ],
+            'simple' => [
+                'date' => '2015-01-01 22:50',
+            ],
+            'author' => [
+                'name' => 'Barfoo',
+                'age' => 28,
+                'is_active' => false,
+                'related' => [
+                    'name' => 'Barfoo',
+                    'age' => 28,
+                ],
+            ],
+            'fans' => [
+                [
+                    'name' => 'A',
+                    'age' => 18,
+                ],
+                [
+                    'name' => 'B',
+                    'age' => 28,
+                ],
+                [
+                    'name' => 'C',
+                    'age' => 38,
+                ]
+            ],
+        ];
+
+        $inputHandler = new TestInputHandler();
+        $inputHandler->bind($input);
+        $this->assertTrue($inputHandler->isValid());
+
+        $this->assertEquals('', $inputHandler->getData('title'));
+        $this->assertEquals(0, $inputHandler->getData('size'));
+        $this->assertEquals([0, 0, 0], $inputHandler->getData('dimensions'));
+        $this->assertEquals(false, $inputHandler->getData('author')->isActive);
+    }
+
+    public function testIsHandlingInputValidationWithInstantiator()
+    {
+        $input = [
+            'title' => 'Foobar',
+            'size' => 35,
+            'dimensions' => [11, 22, 33],
+            'date' => '2015-01-01 22:50',
+            'metadata' => [
+                'foo' => 'bar',
+            ],
+            'simple' => [
+                'date' => '2015-01-01 22:50',
+            ],
+            'user' => [
+                'name' => false,
+                'age' => '28',
+            ],
+            'author' => [
+                'name' => 'Barfoo',
+                'age' => 28,
+                'related' => [
+                    'name' => 'Barfoo',
+                    'age' => 28,
+                ],
+            ],
+            'fans' => [
+                [
+                    'name' => 'A',
+                    'age' => 18,
+                ],
+                [
+                    'name' => 'B',
+                    'age' => 28,
+                ],
+                [
+                    'name' => 'C',
+                    'age' => 38,
+                ]
+            ],
+        ];
+
+        $instantiator = $this->prophesize(InstantiatorInterface::class);
+        $instantiator->instantiate('Linio\Component\Input\TestUser', [])->shouldNotBeCalled();
+
+        $inputHandler = new TestInputHandler();
+        $user = $inputHandler->add('user', 'Linio\Component\Input\TestUser', ['instantiator' => $instantiator->reveal()]);
+        $user->add('name', 'string');
+        $user->add('age', 'int');
+        $inputHandler->bind($input);
+        $this->assertFalse($inputHandler->isValid());
+        $this->assertEquals([
+            '[name] Value does not match type: string',
+        ], $inputHandler->getErrors());
     }
 }

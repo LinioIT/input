@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
-class Enum implements ConstraintInterface
+class Enum extends Constraint
 {
     /**
      * @var array
@@ -13,15 +13,11 @@ class Enum implements ConstraintInterface
     public function __construct(array $enumValues)
     {
         $this->enumValues = $enumValues;
+        $this->errorMessage = 'Invalid option for enum. Allowed options are: ' . implode(', ', $this->enumValues);
     }
 
     public function validate($content): bool
     {
         return in_array($content, $this->enumValues);
-    }
-
-    public function getErrorMessage(): string
-    {
-        return 'Invalid option for enum. Allowed options are: ' . implode(', ', $this->enumValues);
     }
 }

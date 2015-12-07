@@ -23,6 +23,6 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
     {
         $constraint = new DateRange('today', '+3 days');
         $this->assertFalse($constraint->validate('yesterday'));
-        $this->assertEquals('Date is not between "today" and "+3 days"', $constraint->getErrorMessage());
+        $this->assertEquals('[field] Date is not between "today" and "+3 days"', $constraint->getErrorMessage('field'));
     }
 }

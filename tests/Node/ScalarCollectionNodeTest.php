@@ -17,7 +17,7 @@ class ScalarCollectionNodeTest extends \PHPUnit_Framework_TestCase
         $base->setTypeHandler($typeHandler->reveal());
         $child = $base->add('foobar', 'int');
         $child->setType('int');
-        $this->assertEquals([15, 25, 36], $child->getValue([15, 25, 36]));
+        $this->assertEquals([15, 25, 36], $child->getValue('foobar', [15, 25, 36]));
     }
 
     /**
@@ -33,18 +33,7 @@ class ScalarCollectionNodeTest extends \PHPUnit_Framework_TestCase
         $base->setTypeHandler($typeHandler->reveal());
         $child = $base->add('foobar', 'int');
         $child->setType('int');
-        $child->getValue([15, '25']);
-    }
-
-    public function testIsGettingDefaultValue()
-    {
-        $typeHandler = $this->prophesize(TypeHandler::class);
-        $typeHandler->getType('int')->willReturn(new ScalarCollectionNode());
-
-        $base = new ScalarCollectionNode();
-        $base->setTypeHandler($typeHandler->reveal());
-        $child = $base->add('foobar', 'int', ['default' => 'foobar']);
-        $this->assertEquals('foobar', $child->getValue(null));
+        $child->getValue('foobar', [15, '25']);
     }
 
     /**
@@ -57,12 +46,12 @@ class ScalarCollectionNodeTest extends \PHPUnit_Framework_TestCase
 
         $constraint = $this->prophesize(ConstraintInterface::class);
         $constraint->validate([15, 25, 36])->willReturn(false);
-        $constraint->getErrorMessage()->shouldBeCalled();
+        $constraint->getErrorMessage('foobar')->shouldBeCalled();
 
         $base = new ScalarCollectionNode();
         $base->setTypeHandler($typeHandler->reveal());
         $child = $base->add('foobar', 'int', ['constraints' => [$constraint->reveal()]]);
         $child->setType('int');
-        $child->getValue([15, 25, 36]);
+        $child->getValue('foobar', [15, 25, 36]);
     }
 }

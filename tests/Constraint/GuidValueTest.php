@@ -27,6 +27,6 @@ class GuidValueTest extends \PHPUnit_Framework_TestCase
     {
         $constraint = new GuidValue();
         $this->assertFalse($constraint->validate('0dga84b2-639d-4b06-bc87-7ab5ae3f5d4f'));
-        $this->assertEquals('Invalid GUID format', $constraint->getErrorMessage());
+        $this->assertEquals('[field] Invalid GUID format', $constraint->getErrorMessage('field'));
     }
 }

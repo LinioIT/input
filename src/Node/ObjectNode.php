@@ -12,13 +12,9 @@ class ObjectNode extends BaseNode
         $this->instantiator = new SetInstantiator();
     }
 
-    public function getValue($value)
+    public function getValue(string $field, $value)
     {
-        if (!$value) {
-            return $this->default;
-        }
-
-        $this->checkConstraints($value);
+        $this->checkConstraints($field, $value);
 
         return $this->instantiator->instantiate($this->type, $value);
     }

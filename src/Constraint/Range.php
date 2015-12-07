@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
-class Range implements ConstraintInterface
+class Range extends Constraint
 {
     /**
      * @var int
@@ -19,15 +19,11 @@ class Range implements ConstraintInterface
     {
         $this->min = $min;
         $this->max = $max;
+        $this->errorMessage = sprintf('Value is not between %d and %d', $this->min, $this->max);
     }
 
     public function validate($content): bool
     {
         return $content >= $this->min && $content <= $this->max;
-    }
-
-    public function getErrorMessage(): string
-    {
-        return sprintf('Value is not between %d and %d', $this->min, $this->max);
     }
 }

@@ -23,6 +23,6 @@ class EnumTest extends \PHPUnit_Framework_TestCase
     {
         $constraint = new Enum(['foo', 'bar']);
         $this->assertFalse($constraint->validate('test'), 'The "test" value is not part of the Enum');
-        $this->assertEquals('Invalid option for enum. Allowed options are: foo, bar', $constraint->getErrorMessage());
+        $this->assertEquals('[field] Invalid option for enum. Allowed options are: foo, bar', $constraint->getErrorMessage('field'));
     }
 }

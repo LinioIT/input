@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
-class StringSize implements ConstraintInterface
+class StringSize extends Constraint
 {
     /**
      * @var int
@@ -19,6 +19,7 @@ class StringSize implements ConstraintInterface
     {
         $this->minSize = $minSize;
         $this->maxSize = $maxSize;
+        $this->errorMessage = sprintf('Content out of min/max limit sizes [%s, %s]', $this->minSize, $this->maxSize);
     }
 
     public function validate($content): bool
@@ -26,10 +27,5 @@ class StringSize implements ConstraintInterface
         $size = strlen($content);
 
         return $size >= $this->minSize && $size <= $this->maxSize;
-    }
-
-    public function getErrorMessage(): string
-    {
-        return sprintf('Content out of min/max limit sizes [%s, %s]', $this->minSize, $this->maxSize);
     }
 }

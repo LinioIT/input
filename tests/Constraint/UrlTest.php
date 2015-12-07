@@ -27,6 +27,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $constraint = new Url();
         $this->assertFalse($constraint->validate('foobarcom'));
-        $this->assertEquals('Invalid URL format', $constraint->getErrorMessage());
+        $this->assertEquals('[field] Invalid URL format', $constraint->getErrorMessage('field'));
     }
 }

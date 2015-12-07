@@ -70,18 +70,7 @@ class BaseNodeTest extends \PHPUnit_Framework_TestCase
         $base = new BaseNode();
         $base->setTypeHandler($typeHandler->reveal());
         $child = $base->add('foobar', 'string');
-        $this->assertEquals('foobar', $child->getValue('foobar'));
-    }
-
-    public function testIsGettingDefaultValue()
-    {
-        $typeHandler = $this->prophesize(TypeHandler::class);
-        $typeHandler->getType('string')->willReturn(new BaseNode());
-
-        $base = new BaseNode();
-        $base->setTypeHandler($typeHandler->reveal());
-        $child = $base->add('foobar', 'string', ['default' => 'foobar']);
-        $this->assertEquals('foobar', $child->getValue(null));
+        $this->assertEquals('foobar', $child->getValue('foobar', 'foobar'));
     }
 
     /**
@@ -95,7 +84,7 @@ class BaseNodeTest extends \PHPUnit_Framework_TestCase
         $base = new BaseNode();
         $base->setTypeHandler($typeHandler->reveal());
         $child = $base->add('foobar', 'string', ['constraints' => [new StringSize(2, 5)]]);
-        $child->getValue('foobar');
+        $child->getValue('foobar', 'foobar');
     }
 
     public function testIsGettingTransformedValue()
@@ -106,6 +95,6 @@ class BaseNodeTest extends \PHPUnit_Framework_TestCase
         $base = new BaseNode();
         $base->setTypeHandler($typeHandler->reveal());
         $child = $base->add('foobar', 'string', ['transformer' => new DateTimeTransformer()]);
-        $this->assertEquals(new \DateTime('2014-01-01 00:00:00'), $child->getValue('2014-01-01 00:00:00'));
+        $this->assertEquals(new \DateTime('2014-01-01 00:00:00'), $child->getValue('foobar', '2014-01-01 00:00:00'));
     }
 }
