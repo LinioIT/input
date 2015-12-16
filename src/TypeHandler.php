@@ -1,122 +1,122 @@
 <?php
+declare(strict_types=1);
 
 namespace Linio\Component\Input;
 
-use Linio\Component\Input\Transformer\DateTimeTransformer;
-use Linio\Component\Input\Transformer\TransformerInterface;
+use Linio\Component\Input\Node\BaseNode;
+use Linio\Component\Input\Node\BoolNode;
+use Linio\Component\Input\Node\CollectionNode;
+use Linio\Component\Input\Node\DateTimeNode;
+use Linio\Component\Input\Node\FloatNode;
+use Linio\Component\Input\Node\IntNode;
+use Linio\Component\Input\Node\NumericNode;
+use Linio\Component\Input\Node\ObjectNode;
+use Linio\Component\Input\Node\ScalarCollectionNode;
+use Linio\Component\Input\Node\StringNode;
+use Linio\Component\Input\Instantiator\InstantiatorInterface;
+use Linio\Component\Input\Instantiator\SetInstantiator;
 
 class TypeHandler
 {
-    protected $typeChecks = [];
-    protected $typeTransformers = [];
+    /**
+     * @var array
+     */
+    protected $types;
 
     /**
-     * @param callable[]             $typeChecks
-     * @param TransformerInterface[] $typeTransformers
+     * @var InstantiatorInterface
      */
-    public function __construct(array $typeChecks = [], array $typeTransformers = [])
+    protected $defaultInstantiator;
+
+    public function __construct()
     {
-        $this->loadDefaults();
-
-        foreach ($typeChecks as $typeName => $typeCheck) {
-            $this->addTypeCheck($typeName, $typeCheck);
-        }
-
-        foreach ($typeTransformers as $typeName => $typeTransformer) {
-            $this->addTypeTransformer($typeName, $typeTransformer);
-        }
-    }
-
-    protected function loadDefaults()
-    {
-        $this->typeChecks = [
-            'boolean' => 'is_bool',
-            'float' => 'is_float',
-            'double' => 'is_float',
-            'int' => 'is_int',
-            'integer' => 'is_int',
-            'numeric' => 'is_numeric',
-            'string' => 'is_string',
+        $this->types = [
+            'bool' => BoolNode::class,
+            'int' => IntNode::class,
+            'float' => FloatNode::class,
+            'double' => FloatNode::class,
+            'numeric' => NumericNode::class,
+            'string' => StringNode::class,
+            'array' => BaseNode::class,
+            'object' => ObjectNode::class,
+            'datetime' => DateTimeNode::class,
         ];
 
-        $this->typeTransformers = [
-            'datetime' => new DateTimeTransformer(),
-        ];
+        $this->defaultInstantiator = new SetInstantiator();
     }
 
-    /**
-     * @param string $type
-     * @param string $value
-     */
-    public function checkType($type, $value)
+    public function addType(string $name, string $class)
     {
-        if (!isset($this->typeChecks[$type])) {
-            return true;
+        $this->types[$name] = $class;
+    }
+
+    public function getType(string $name): BaseNode
+    {
+        if (isset($this->types[$name])) {
+            return new $this->types[$name]();
         }
 
-        return call_user_func($this->typeChecks[$type], $value);
-    }
+        if ($this->isScalarCollectionType($name)) {
+            $type = new ScalarCollectionNode();
+            $type->setType($this->getCollectionType($name));
 
-    /**
-     * @param string $type
-     * @param string $value
-     */
-    public function convertType($type, $value)
-    {
-        if (!isset($this->typeTransformers[$type])) {
-            return $value;
+            return $type;
         }
 
-        return $this->typeTransformers[$type]->transform($value);
+        if ($this->isClassType($name)) {
+            $type = new ObjectNode();
+            $type->setType($name);
+            $type->setInstantiator($this->defaultInstantiator);
+
+            return $type;
+        }
+
+        if ($this->isCollectionType($name)) {
+            $type = new CollectionNode();
+            $type->setType($this->getCollectionType($name));
+            $type->setInstantiator($this->defaultInstantiator);
+
+            return $type;
+        }
+
+        throw new \InvalidArgumentException('Unknown type name: ' . $name);
     }
 
-    /**
-     * @param string $typeName
-     * @param string $typeCheck
-     */
-    public function addTypeCheck($typeName, callable $typeCheck)
+    protected function isClassType(string $type): bool
     {
-        $this->typeChecks[$typeName] = $typeCheck;
+        return class_exists($type) && $type != 'datetime';
     }
 
-    /**
-     * @return array
-     */
-    public function getTypeChecks()
+    protected function isCollectionType(string $type): bool
     {
-        return $this->typeChecks;
+        $collectionType = $this->getCollectionType($type);
+
+        if (!class_exists($collectionType)) {
+            return false;
+        }
+
+        return true;
     }
 
-    /**
-     * @param array $typeChecks
-     */
-    public function setTypeChecks(array $typeChecks)
+    protected function isScalarCollectionType(string $type): bool
     {
-        $this->typeChecks = $typeChecks;
+        $collectionType = $this->getCollectionType($type);
+
+        if (!function_exists('is_' . $collectionType)) {
+            return false;
+        }
+
+        return true;
     }
 
-    /**
-     * @param string                                                  $typeName
-     * @param \Linio\Component\Input\Transformer\TransformerInterface $typeTransformers
-     */
-    public function addTypeTransformer($typeName, TransformerInterface $typeTransformer)
+    protected function getCollectionType(string $type): string
     {
-        $this->typeTransformers[$typeName] = $typeTransformer;
-    }
+        $pos = strrpos($type, '[]');
 
-    /**
-     * @return array
-     */
-    public function getTypeTransformers()
-    {
-        return $this->typeTransformers;
-    }
+        if ($pos === false) {
+            return $type;
+        }
 
-    /**
-     * @param array $typeTransformers
-     */
-    public function setTypeTransformers(array $typeTransformers)
-    {
-        $this->typeTransformers = $typeTransformers;
+        return substr($type, 0, $pos);
     }
 }

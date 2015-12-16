@@ -1,35 +1,27 @@
 <?php
+declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
-class Pattern implements ConstraintInterface
+class Pattern extends Constraint
 {
     /**
      * @var string
      */
     protected $pattern;
 
-    /**
-     * @param string $pattern
-     */
-    public function __construct($pattern)
+    public function __construct(string $pattern)
     {
         $this->pattern = $pattern;
+        $this->errorMessage = 'Required pattern does not match';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function validate($content)
+    public function validate($content): bool
     {
+        if (!$content) {
+            return false;
+        }
+
         return (bool) preg_match($this->pattern, $content);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getErrorMessage()
-    {
-        return 'Required pattern does not match';
     }
 }

@@ -2,6 +2,7 @@ build/
 vendor/
 bin/
 composer.phar
+composer.lock
 phpunit.xml
 cache.properties
 .php_cs.cache
