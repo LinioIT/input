@@ -8,15 +8,25 @@ use Prophecy\Argument;
 
 class TestUser
 {
-    public $name;
-    public $age;
-    public $date;
+    protected $name;
+    protected $age;
+    protected $date;
     public $isActive;
-    public $related;
+    protected $related;
+
+    public function getName()
+    {
+        return $this->name;
+    }
 
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function getAge()
+    {
+        return $this->age;
     }
 
     public function setAge($age)
@@ -27,6 +37,11 @@ class TestUser
     public function setIsActive(bool $isActive)
     {
         $this->isActive = $isActive;
+    }
+
+    public function getRelated() : TestUser
+    {
+        return $this->related;
     }
 
     public function setRelated(TestUser $related)

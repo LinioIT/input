@@ -13,7 +13,12 @@ class ReflectionInstantiator implements InstantiatorInterface
         $reflection = new \ReflectionClass($object);
 
         foreach ($data as $key => $value) {
-            $reflection->getProperty(Inflector::camelize($key))->setValue($object, $value);
+            $property = $reflection->getProperty(Inflector::camelize($key));
+            if (!$property->isPublic()) {
+                $property->setAccessible(true);
+            }
+
+            $property->setValue($object, $value);
         }
 
         return $object;
