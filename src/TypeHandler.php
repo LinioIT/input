@@ -53,12 +53,16 @@ class TypeHandler
     public function getType(string $name): BaseNode
     {
         if (isset($this->types[$name])) {
-            return new $this->types[$name]();
+            $type = new $this->types[$name]();
+            $type->setTypeHandler($this);
+
+            return $type;
         }
 
         if ($this->isScalarCollectionType($name)) {
             $type = new ScalarCollectionNode();
             $type->setType($this->getCollectionType($name));
+            $type->setTypeHandler($this);
 
             return $type;
         }
@@ -66,6 +70,7 @@ class TypeHandler
         if ($this->isClassType($name)) {
             $type = new ObjectNode();
             $type->setType($name);
+            $type->setTypeHandler($this);
             $type->setInstantiator($this->defaultInstantiator);
 
             return $type;
@@ -74,6 +79,7 @@ class TypeHandler
         if ($this->isCollectionType($name)) {
             $type = new CollectionNode();
             $type->setType($this->getCollectionType($name));
+            $type->setTypeHandler($this);
             $type->setInstantiator($this->defaultInstantiator);
 
             return $type;

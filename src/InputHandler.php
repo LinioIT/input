@@ -50,7 +50,7 @@ abstract class InputHandler
         $this->define();
 
         try {
-            $this->output = $this->root->walk($input);
+            $this->output = $this->root->getValue('root', $this->root->walk($input));
         } catch (RequiredFieldException $exception) {
             $this->errors[] = 'Missing required field: ' . $exception->getField();
         } catch (\RuntimeException $exception) {

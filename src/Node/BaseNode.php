@@ -105,7 +105,6 @@ class BaseNode
     public function add(string $key, string $type, array $options = []): BaseNode
     {
         $child = $this->typeHandler->getType($type);
-        $child->setTypeHandler($this->typeHandler);
 
         if (isset($options['required'])) {
             $child->setRequired($options['required']);
