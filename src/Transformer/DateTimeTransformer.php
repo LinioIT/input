@@ -7,6 +7,10 @@ class DateTimeTransformer implements TransformerInterface
 {
     public function transform($value)
     {
+        if ($value === null) {
+            return;
+        }
+
         try {
             $date = new \DateTime($value);
         } catch (\Exception $e) {

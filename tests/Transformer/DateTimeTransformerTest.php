@@ -21,4 +21,12 @@ class DateTimeTransformerTest extends \PHPUnit_Framework_TestCase
         $transformed = $transformer->transform('2014-01x01');
         $this->assertNull($transformed);
     }
+
+    public function testIsAllowingNullableValue()
+    {
+        $transformer = new DateTimeTransformer();
+        $transformed = $transformer->transform(null);
+
+        $this->assertNull($transformed);
+    }
 }
