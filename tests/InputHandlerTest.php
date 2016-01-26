@@ -11,8 +11,9 @@ class TestUser
     protected $name;
     protected $age;
     protected $date;
-    public $isActive;
     protected $related;
+    public $isActive;
+    public $birthday;
 
     public function getName()
     {
@@ -34,12 +35,7 @@ class TestUser
         $this->age = $age;
     }
 
-    public function setIsActive(bool $isActive)
-    {
-        $this->isActive = $isActive;
-    }
-
-    public function getRelated() : TestUser
+    public function getRelated(): TestUser
     {
         return $this->related;
     }
@@ -47,6 +43,16 @@ class TestUser
     public function setRelated(TestUser $related)
     {
         $this->related = $related;
+    }
+
+    public function setIsActive(bool $isActive)
+    {
+        $this->isActive = $isActive;
+    }
+
+    public function setBirthday(\DateTime $birthday)
+    {
+        $this->birthday = $birthday;
     }
 }
 
@@ -76,6 +82,7 @@ class TestInputHandler extends InputHandler
         $fans = $this->add('fans', 'Linio\Component\Input\TestUser[]');
         $fans->add('name', 'string');
         $fans->add('age', 'int');
+        $fans->add('birthday', 'datetime');
     }
 }
 
@@ -106,14 +113,17 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
                 [
                     'name' => 'A',
                     'age' => 18,
+                    'birthday' => '2000-01-01',
                 ],
                 [
                     'name' => 'B',
                     'age' => 28,
+                    'birthday' => '2000-01-02',
                 ],
                 [
                     'name' => 'C',
                     'age' => 38,
+                    'birthday' => '2000-01-03',
                 ]
             ],
         ];
@@ -152,12 +162,15 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
         $fanA = new TestUser();
         $fanA->setName('A');
         $fanA->setAge(18);
+        $fanA->setBirthday(new \DateTime('2000-01-01'));
         $fanB = new TestUser();
         $fanB->setName('B');
         $fanB->setAge(28);
+        $fanB->setBirthday(new \DateTime('2000-01-02'));
         $fanC = new TestUser();
         $fanC->setName('C');
         $fanC->setAge(38);
+        $fanC->setBirthday(new \DateTime('2000-01-03'));
         $this->assertEquals([$fanA, $fanB, $fanC], $inputHandler->getData('fans'));
     }
 
@@ -185,14 +198,17 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
                 [
                     'name' => 'A',
                     'age' => 18,
+                    'birthday' => '2000-01-01',
                 ],
                 [
                     'name' => 'B',
                     'age' => 28,
+                    'birthday' => '2000-01-01',
                 ],
                 [
                     'name' => 'C',
                     'age' => 38,
+                    'birthday' => '2000-01-01',
                 ]
             ],
         ];
@@ -232,14 +248,17 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
                 [
                     'name' => 'A',
                     'age' => 18,
+                    'birthday' => '2000-01-01',
                 ],
                 [
                     'name' => 'B',
                     'age' => 28,
+                    'birthday' => '2000-01-01',
                 ],
                 [
                     'name' => 'C',
                     'age' => 38,
+                    'birthday' => '2000-01-01',
                 ]
             ],
         ];
@@ -283,14 +302,17 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
                 [
                     'name' => 'A',
                     'age' => 18,
+                    'birthday' => '2000-01-01',
                 ],
                 [
                     'name' => 'B',
                     'age' => 28,
+                    'birthday' => '2000-01-01',
                 ],
                 [
                     'name' => 'C',
                     'age' => 38,
+                    'birthday' => '2000-01-01',
                 ]
             ],
         ];

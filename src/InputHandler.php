@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input;
 
+use Linio\Component\Input\Exception\RequiredFieldException;
 use Linio\Component\Input\Node\BaseNode;
 
 abstract class InputHandler
@@ -49,7 +50,9 @@ abstract class InputHandler
         $this->define();
 
         try {
-            $this->output = $this->walk($this->root, $input);
+            $this->output = $this->root->walk($input);
+        } catch (RequiredFieldException $exception) {
+            $this->errors[] = 'Missing required field: ' . $exception->getField();
         } catch (\RuntimeException $exception) {
             $this->errors[] = $exception->getMessage();
         }
@@ -81,33 +84,6 @@ abstract class InputHandler
     public function getErrorsAsString(): string
     {
         return implode(', ', $this->errors);
-    }
-
-    protected function walk(BaseNode $node, $input)
-    {
-        $result = [];
-
-        if (!$node->hasChildren()) {
-            return $input;
-        }
-
-        foreach ($node->getChildren() as $field => $config) {
-            if (!array_key_exists($field, $input)) {
-                if ($config->isRequired()) {
-                    throw new \RuntimeException('Missing required field: ' . $field);
-                }
-
-                if (!$config->hasDefault()) {
-                    continue;
-                }
-
-                $input[$field] = $config->getDefault();
-            }
-
-            $result[$field] = $config->getValue($field, $this->walk($config, $input[$field]));
-        }
-
-        return $result;
     }
 
     abstract public function define();

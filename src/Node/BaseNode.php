@@ -5,6 +5,7 @@ namespace Linio\Component\Input\Node;
 
 use Linio\Component\Input\Constraint\ConstraintInterface;
 use Linio\Component\Input\Exception\InvalidConstraintException;
+use Linio\Component\Input\Exception\RequiredFieldException;
 use Linio\Component\Input\Instantiator\InstantiatorInterface;
 use Linio\Component\Input\Transformer\TransformerInterface;
 use Linio\Component\Input\TypeHandler;
@@ -167,6 +168,33 @@ class BaseNode
         }
 
         return $value;
+    }
+
+    public function walk($input)
+    {
+        $result = [];
+
+        if (!$this->hasChildren()) {
+            return $input;
+        }
+
+        foreach ($this->getChildren() as $field => $config) {
+            if (!array_key_exists($field, $input)) {
+                if ($config->isRequired()) {
+                    throw new RequiredFieldException($field);
+                }
+
+                if (!$config->hasDefault()) {
+                    continue;
+                }
+
+                $input[$field] = $config->getDefault();
+            }
+
+            $result[$field] = $config->getValue($field, $config->walk($input[$field]));
+        }
+
+        return $result;
     }
 
     protected function checkConstraints(string $field, $value)

@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Node;
 
-use Linio\Component\Input\Instantiator\SetInstantiator;
-
 class ObjectNode extends BaseNode
 {
     public function getValue(string $field, $value)

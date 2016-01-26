@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input;
 
+use Linio\Component\Input\Instantiator\InstantiatorInterface;
+use Linio\Component\Input\Instantiator\SetInstantiator;
 use Linio\Component\Input\Node\BaseNode;
 use Linio\Component\Input\Node\BoolNode;
 use Linio\Component\Input\Node\CollectionNode;
@@ -13,8 +15,6 @@ use Linio\Component\Input\Node\NumericNode;
 use Linio\Component\Input\Node\ObjectNode;
 use Linio\Component\Input\Node\ScalarCollectionNode;
 use Linio\Component\Input\Node\StringNode;
-use Linio\Component\Input\Instantiator\InstantiatorInterface;
-use Linio\Component\Input\Instantiator\SetInstantiator;
 
 class TypeHandler
 {
