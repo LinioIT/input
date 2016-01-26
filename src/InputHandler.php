@@ -45,6 +45,11 @@ abstract class InputHandler
         $this->root->remove($key);
     }
 
+    public function setRootType(string $type)
+    {
+        $this->root = $this->typeHandler->getType($type);
+    }
+
     public function bind(array $input)
     {
         $this->define();
