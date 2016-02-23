@@ -40,6 +40,13 @@ class TypeHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ObjectNode::class, $type);
     }
 
+    public function testIsCreatingInputHandlers()
+    {
+        $typeHandler = new TypeHandler();
+        $type = $typeHandler->getType('Linio\Component\Input\InputHandler');
+        $this->assertInstanceOf(BaseNode::class, $type);
+    }
+
     public function testIsDetectingConflictWithCaseInsensitive()
     {
         $typeHandler = new TypeHandler();
