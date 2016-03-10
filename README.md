@@ -261,3 +261,61 @@ The library includes several instantiators by default:
 * ReflectionInstantiator
 
 By default, the `SetInstantiator` is used by Object and Collection nodes.
+
+InputHandlers
+-------------
+
+Linio Input supports portable, reusable InputHandlers via nesting. This is accomplished
+by including the `handler` to the options parameter when adding fields.
+
+Suppose your application deals with mailing addresses:
+
+```php
+<?php
+
+class OrderHandler extends InputHandler
+{
+    public function define()
+    {
+        $address = $this->add('shipping_address', Address::class);
+        $address->add('street', 'string');
+        $address->add('city', 'string');
+        $address->add('state', 'string');
+        $address->add('zip_code', 'integer');
+    }
+}
+```
+
+Rather than duplicating this everywhere you need to handle an address, you can extract the
+address into its own InputHandler and re-use it throughout your application.
+
+```php
+<?php
+
+class AddressHandler extends InputHandler
+{
+    public function define()
+    {
+        $address->add('street', 'string');
+        $address->add('city', 'string');
+        $address->add('state', 'string');
+        $address->add('zip_code', 'integer');
+    }
+}
+
+class OrderHandler extends InputHander
+{
+    public function define()
+    {
+        $this->add('shipping_address', Address::Class, ['handler' => new AddressHandler()]);
+    }
+}
+
+class RegistrationHandler extends InputHander
+{
+    public function define()
+    {
+        $this->add('home_address', Address::Class, ['handler' => new AddressHandler()]);
+    }
+}
+```

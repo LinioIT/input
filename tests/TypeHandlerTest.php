@@ -33,18 +33,22 @@ class TypeHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(CollectionNode::class, $type);
     }
 
-    public function testIsCreatingObjects()
+    public function objectProvider()
     {
-        $typeHandler = new TypeHandler();
-        $type = $typeHandler->getType('DateTime');
-        $this->assertInstanceOf(ObjectNode::class, $type);
+        return [
+            ['DateTime'],
+            [\DateTimeInterface::class],
+        ];
     }
 
-    public function testIsCreatingInputHandlers()
+    /**
+     * @dataProvider objectProvider
+     */
+    public function testIsCreatingObjects($className)
     {
         $typeHandler = new TypeHandler();
-        $type = $typeHandler->getType('Linio\Component\Input\InputHandler');
-        $this->assertInstanceOf(BaseNode::class, $type);
+        $type = $typeHandler->getType($className);
+        $this->assertInstanceOf(ObjectNode::class, $type);
     }
 
     public function testIsDetectingConflictWithCaseInsensitive()

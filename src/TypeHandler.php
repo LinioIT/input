@@ -59,13 +59,6 @@ class TypeHandler
             return $type;
         }
 
-        if ($this->isInputHandler($name)) {
-            $handler = new $name($this);
-            $handler->define();
-
-            return $handler->getRoot();
-        }
-
         if ($this->isScalarCollectionType($name)) {
             $type = new ScalarCollectionNode();
             $type->setType($this->getCollectionType($name));
@@ -97,7 +90,7 @@ class TypeHandler
 
     protected function isClassType(string $type): bool
     {
-        return class_exists($type) && $type != 'datetime';
+        return (class_exists($type) || interface_exists($type)) && $type != 'datetime';
     }
 
     protected function isCollectionType(string $type): bool
@@ -120,11 +113,6 @@ class TypeHandler
         }
 
         return true;
-    }
-
-    protected function isInputHandler(string $type): bool
-    {
-        return is_subclass_of($type, InputHandler::class);
     }
 
     protected function getCollectionType(string $type): string
