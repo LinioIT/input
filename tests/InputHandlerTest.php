@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Linio\Component\Input;
 
 use Linio\Component\Input\Instantiator\InstantiatorInterface;
+use Linio\Component\Input\Instantiator\PropertyInstantiator;
 use Prophecy\Argument;
 
 class TestUser
@@ -92,7 +93,7 @@ class TestRecursiveInputHandler extends InputHandler
     {
         $this->add('title', 'string');
         $this->add('size', 'int');
-        $this->add('child', 'Linio\Component\Input\TestInputHandler');
+        $this->add('child', \stdClass::class, ['handler' => new TestInputHandler(), 'instantiator' => new PropertyInstantiator()]);
     }
 }
 
@@ -396,19 +397,20 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
         // Basic fields
         $this->assertEquals('Barfoo', $inputHandler->getData('title'));
         $this->assertEquals(20, $inputHandler->getData('size'));
+        /** @var \stdClass $child */
         $child = $inputHandler->getData('child');
 
         // Scalar collection
-        $this->assertEquals([11, 22, 33], $child['dimensions']);
+        $this->assertEquals([11, 22, 33], $child->dimensions);
 
         // Transformer
-        $this->assertEquals(new \DateTime('2015-01-01 22:50'), $child['date']);
+        $this->assertEquals(new \DateTime('2015-01-01 22:50'), $child->date);
 
         // Mixed array
-        $this->assertEquals(['foo' => 'bar'], $child['metadata']);
+        $this->assertEquals(['foo' => 'bar'], $child->metadata);
 
         // Typed array
-        $this->assertEquals(['title' => 'Barfoo', 'size' => 15, 'date' => new \DateTime('2015-01-01 22:50')], $child['simple']);
+        $this->assertEquals(['title' => 'Barfoo', 'size' => 15, 'date' => new \DateTime('2015-01-01 22:50')], $child->simple);
 
         // Object and nested object
         $related = new TestUser();
@@ -418,7 +420,7 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
         $author->setName('Barfoo');
         $author->setAge(28);
         $author->setRelated($related);
-        $this->assertEquals($author, $child['author']);
+        $this->assertEquals($author, $child->author);
 
         // Object collection
         $fanA = new TestUser();
@@ -433,6 +435,6 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
         $fanC->setName('C');
         $fanC->setAge(38);
         $fanC->setBirthday(new \DateTime('2000-01-03'));
-        $this->assertEquals([$fanA, $fanB, $fanC], $child['fans']);
+        $this->assertEquals([$fanA, $fanB, $fanC], $child->fans);
     }
 }

@@ -6,6 +6,7 @@ namespace Linio\Component\Input\Node;
 use Linio\Component\Input\Constraint\ConstraintInterface;
 use Linio\Component\Input\Exception\InvalidConstraintException;
 use Linio\Component\Input\Exception\RequiredFieldException;
+use Linio\Component\Input\InputHandler;
 use Linio\Component\Input\Instantiator\InstantiatorInterface;
 use Linio\Component\Input\Transformer\TransformerInterface;
 use Linio\Component\Input\TypeHandler;
@@ -105,6 +106,15 @@ class BaseNode
     public function add(string $key, string $type, array $options = []): BaseNode
     {
         $child = $this->typeHandler->getType($type);
+
+        if (isset($options['handler'])) {
+            /** @var InputHandler $handler */
+            $handler = $options['handler'];
+            $handler->setRootType($type);
+            $handler->define();
+
+            $child = $handler->getRoot();
+        }
 
         if (isset($options['required'])) {
             $child->setRequired($options['required']);
