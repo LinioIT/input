@@ -33,10 +33,21 @@ class TypeHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(CollectionNode::class, $type);
     }
 
-    public function testIsCreatingObjects()
+    public function objectProvider()
+    {
+        return [
+            ['DateTime'],
+            [\DateTimeInterface::class],
+        ];
+    }
+
+    /**
+     * @dataProvider objectProvider
+     */
+    public function testIsCreatingObjects($className)
     {
         $typeHandler = new TypeHandler();
-        $type = $typeHandler->getType('DateTime');
+        $type = $typeHandler->getType($className);
         $this->assertInstanceOf(ObjectNode::class, $type);
     }
 

@@ -90,7 +90,7 @@ class TypeHandler
 
     protected function isClassType(string $type): bool
     {
-        return class_exists($type) && $type != 'datetime';
+        return (class_exists($type) || interface_exists($type)) && $type != 'datetime';
     }
 
     protected function isCollectionType(string $type): bool
