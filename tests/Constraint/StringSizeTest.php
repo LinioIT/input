@@ -15,6 +15,9 @@ class StringSizeTest extends \PHPUnit_Framework_TestCase
         $constraint2 = new StringSize(3, 5);
         $this->assertFalse($constraint2->validate('ab'));
         $this->assertFalse($constraint2->validate('abcdef'));
+
+        $this->assertFalse($constraint1->validate(null));
+        $this->assertFalse($constraint2->validate(null));
     }
 
     public function testIsCheckingValidData()

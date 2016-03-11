@@ -53,6 +53,11 @@ class BaseNode
      */
     protected $typeHandler;
 
+    /**
+     * @var bool
+     */
+    protected $allowNull = false;
+
     public function setConstraints(array $constraints)
     {
         $this->constraints = $constraints;
@@ -91,6 +96,11 @@ class BaseNode
     public function setDefault($default)
     {
         $this->default = $default;
+    }
+
+    public function setAllowNull(bool $allowNull)
+    {
+        $this->allowNull = $allowNull;
     }
 
     public function getDefault()
@@ -136,6 +146,10 @@ class BaseNode
             $child->setConstraints($options['constraints']);
         }
 
+        if (isset($options['allow_null'])) {
+            $child->setAllowNull($options['allow_null']);
+        }
+
         $this->children[$key] = $child;
 
         return $child;
@@ -168,8 +182,17 @@ class BaseNode
         return $this->required;
     }
 
+    public function allowNull(): bool
+    {
+        return $this->allowNull;
+    }
+
     public function getValue(string $field, $value)
     {
+        if ($this->allowNull() && $value === null) {
+            return $value;
+        }
+
         $this->checkConstraints($field, $value);
 
         if ($this->transformer) {

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Node;
 
+use Linio\Component\Input\Constraint\NotNull;
 use Linio\Component\Input\TypeHandler;
 use Linio\Component\Input\Constraint\StringSize;
 use Linio\Component\Input\Transformer\DateTimeTransformer;
@@ -85,6 +86,17 @@ class BaseNodeTest extends \PHPUnit_Framework_TestCase
         $base->setTypeHandler($typeHandler->reveal());
         $child = $base->add('foobar', 'string', ['constraints' => [new StringSize(2, 5)]]);
         $child->getValue('foobar', 'foobar');
+    }
+
+    public function testAllowingNullValuesIfConstraintsWouldOtherwiseReject()
+    {
+        $typeHandler = $this->prophesize(TypeHandler::class);
+        $typeHandler->getType('string')->willReturn(new BaseNode());
+
+        $base = new BaseNode();
+        $base->setTypeHandler($typeHandler->reveal());
+        $child = $base->add('foobar', 'string', ['allow_null' => true, 'constraints' => [new NotNull()]]);
+        $child->getValue('foobar', null);
     }
 
     public function testIsGettingTransformedValue()
