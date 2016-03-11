@@ -14,6 +14,7 @@ class GuidValueTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($constraint->validate('0dca84b2-639d-406-bc87-7ab5ae3f5d4f'));
         $this->assertFalse($constraint->validate('0dca84b2-639d-4b06-c87-7ab5ae3f5d4f'));
         $this->assertFalse($constraint->validate('0dca84b2-639d-4b06-bc87-ab5ae3f5d4f'));
+        $this->assertFalse($constraint->validate(null));
     }
 
     public function testIsCheckingValidData()

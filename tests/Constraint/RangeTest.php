@@ -10,6 +10,7 @@ class RangeTest extends \PHPUnit_Framework_TestCase
         $constraint = new Range(50, 100);
         $this->assertFalse($constraint->validate(120));
         $this->assertFalse($constraint->validate(101));
+        $this->assertFalse($constraint->validate(null));
     }
 
     public function testIsCheckingValidData()

@@ -24,6 +24,10 @@ class Range extends Constraint
 
     public function validate($content): bool
     {
+        if ($content === null) {
+            return false;
+        }
+
         return $content >= $this->min && $content <= $this->max;
     }
 }

@@ -24,6 +24,10 @@ class StringSize extends Constraint
 
     public function validate($content): bool
     {
+        if ($content === null) {
+            return false;
+        }
+
         $size = strlen($content);
 
         return $size >= $this->minSize && $size <= $this->maxSize;
