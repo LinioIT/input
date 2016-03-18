@@ -27,4 +27,10 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($constraint->validate('foobar.com'));
         $this->assertEquals('[field] Invalid email format', $constraint->getErrorMessage('field'));
     }
+
+    public function testErrorMessageIsCustomizable()
+    {
+        $constraint = new Email('CUSTOM!');
+        $this->assertSame('[field] CUSTOM!', $constraint->getErrorMessage('field'));
+    }
 }

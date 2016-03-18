@@ -5,9 +5,9 @@ namespace Linio\Component\Input\Constraint;
 
 class Email extends Constraint
 {
-    public function __construct()
+    public function __construct(string $errorMessage = null)
     {
-        $this->errorMessage = 'Invalid email format';
+        $this->setErrorMessage($errorMessage ?? 'Invalid email format');
     }
 
     public function validate($content): bool

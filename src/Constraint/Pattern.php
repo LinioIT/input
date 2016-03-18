@@ -10,10 +10,11 @@ class Pattern extends Constraint
      */
     protected $pattern;
 
-    public function __construct(string $pattern)
+    public function __construct(string $pattern, string $errorMessage = null)
     {
         $this->pattern = $pattern;
-        $this->errorMessage = 'Required pattern does not match';
+
+        $this->setErrorMessage($errorMessage ?? 'Required pattern does not match');
     }
 
     public function validate($content): bool

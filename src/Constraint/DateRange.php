@@ -15,11 +15,12 @@ class DateRange extends Constraint
      */
     protected $max;
 
-    public function __construct(string $min, string $max)
+    public function __construct(string $min, string $max, string $errorMessage = null)
     {
         $this->min = $min;
         $this->max = $max;
-        $this->errorMessage = sprintf('Date is not between "%s" and "%s"', $this->min, $this->max);
+
+        $this->setErrorMessage($errorMessage ?? sprintf('Date is not between "%s" and "%s"', $this->min, $this->max));
     }
 
     public function validate($content): bool

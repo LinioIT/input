@@ -27,4 +27,10 @@ class PatternTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($constraint->validate(null));
         $this->assertEquals('[field] Required pattern does not match', $constraint->getErrorMessage('field'));
     }
+
+    public function testErrorMessageIsCustomizable()
+    {
+        $constraint = new Pattern('/^\d{4}\-\d{2}-\d{2}$/', 'CUSTOM!');
+        $this->assertSame('[field] CUSTOM!', $constraint->getErrorMessage('field'));
+    }
 }
