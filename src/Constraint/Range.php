@@ -15,11 +15,12 @@ class Range extends Constraint
      */
     protected $max;
 
-    public function __construct(int $min, int $max = PHP_INT_MAX)
+    public function __construct(int $min, int $max = PHP_INT_MAX, string $errorMessage = null)
     {
         $this->min = $min;
         $this->max = $max;
-        $this->errorMessage = sprintf('Value is not between %d and %d', $this->min, $this->max);
+
+        $this->setErrorMessage($errorMessage ?? sprintf('Value is not between %d and %d', $this->min, $this->max));
     }
 
     public function validate($content): bool

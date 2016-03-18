@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Linio\Component\Input\Constraint;
 
@@ -10,10 +10,13 @@ class Enum extends Constraint
      */
     protected $enumValues = [];
 
-    public function __construct(array $enumValues)
+    public function __construct(array $enumValues, string $errorMessage = null)
     {
         $this->enumValues = $enumValues;
-        $this->errorMessage = 'Invalid option for enum. Allowed options are: ' . implode(', ', $this->enumValues);
+
+        $this->setErrorMessage(
+            $errorMessage ?? 'Invalid option for enum. Allowed options are: ' . implode(', ', $this->enumValues)
+        );
     }
 
     public function validate($content): bool

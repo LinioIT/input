@@ -25,4 +25,10 @@ class EnumTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($constraint->validate('test'), 'The "test" value is not part of the Enum');
         $this->assertEquals('[field] Invalid option for enum. Allowed options are: foo, bar', $constraint->getErrorMessage('field'));
     }
+
+    public function testErrorMessageIsCustomizable()
+    {
+        $constraint = new Enum(['foo', 'bar'], 'CUSTOM!');
+        $this->assertSame('[field] CUSTOM!', $constraint->getErrorMessage('field'));
+    }
 }

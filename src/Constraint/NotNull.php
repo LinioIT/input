@@ -5,9 +5,9 @@ namespace Linio\Component\Input\Constraint;
 
 class NotNull extends Constraint
 {
-    public function __construct()
+    public function __construct(string $errorMessage = null)
     {
-        $this->errorMessage = 'Unexpected empty content';
+        $this->setErrorMessage($errorMessage ?? 'Unexpected empty content');
     }
 
     public function validate($content): bool

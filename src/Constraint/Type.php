@@ -10,10 +10,11 @@ class Type extends Constraint
      */
     protected $type;
 
-    public function __construct(string $type)
+    public function __construct(string $type, string $errorMessage = null)
     {
         $this->type = $type;
-        $this->errorMessage = 'Value does not match type: ' . $this->type;
+
+        $this->setErrorMessage($errorMessage ?? 'Value does not match type: ' . $this->type);
     }
 
     public function validate($content): bool

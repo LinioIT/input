@@ -5,9 +5,9 @@ namespace Linio\Component\Input\Constraint;
 
 class Url extends Constraint
 {
-    public function __construct()
+    public function __construct(string $errorMessage = null)
     {
-        $this->errorMessage = 'Invalid URL format';
+        $this->setErrorMessage($errorMessage ?? 'Invalid URL format');
     }
 
     public function validate($content): bool

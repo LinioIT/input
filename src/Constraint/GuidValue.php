@@ -5,9 +5,9 @@ namespace Linio\Component\Input\Constraint;
 
 class GuidValue extends Constraint
 {
-    public function __construct()
+    public function __construct(string $errorMessage = null)
     {
-        $this->errorMessage = 'Invalid GUID format';
+        $this->setErrorMessage($errorMessage ?? 'Invalid GUID format');
     }
 
     public function validate($content): bool

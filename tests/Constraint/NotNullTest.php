@@ -27,4 +27,10 @@ class NotNullTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($constraint->validate(null));
         $this->assertEquals('[field] Unexpected empty content', $constraint->getErrorMessage('field'));
     }
+
+    public function testErrorMessageIsCustomizable()
+    {
+        $constraint = new NotNull('CUSTOM!');
+        $this->assertSame('[field] CUSTOM!', $constraint->getErrorMessage('field'));
+    }
 }

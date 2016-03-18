@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Linio\Component\Input\Constraint;
 
@@ -28,5 +28,11 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $constraint = new Url();
         $this->assertFalse($constraint->validate('foobarcom'));
         $this->assertEquals('[field] Invalid URL format', $constraint->getErrorMessage('field'));
+    }
+
+    public function testErrorMessageIsCustomizable()
+    {
+        $constraint = new Url('CUSTOM!');
+        $this->assertSame('[field] CUSTOM!', $constraint->getErrorMessage('field'));
     }
 }

@@ -42,4 +42,10 @@ class StringSizeTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($constraint->validate('ab'));
         $this->assertEquals('[field] Content out of min/max limit sizes [3, 5]', $constraint->getErrorMessage('field'));
     }
+
+    public function testErrorMessageIsCustomizable()
+    {
+        $constraint = new StringSize(1, 2, 'CUSTOM!');
+        $this->assertSame('[field] CUSTOM!', $constraint->getErrorMessage('field'));
+    }
 }
