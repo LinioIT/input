@@ -81,6 +81,11 @@ abstract class InputHandler
         return $this->output;
     }
 
+    public function hasData($index)
+    {
+        return isset($this->output[$index]);
+    }
+
     public function isValid(): bool
     {
         return empty($this->errors);
