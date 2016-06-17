@@ -144,6 +144,8 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($inputHandler->isValid());
 
         // Basic fields
+        $this->assertTrue($inputHandler->hasData('title'));
+        $this->assertFalse($inputHandler->hasData('...'));
         $this->assertEquals('Foobar', $inputHandler->getData('title'));
         $this->assertEquals(35, $inputHandler->getData('size'));
 
