@@ -11,4 +11,9 @@ class IntNode extends BaseNode
     {
         $this->addConstraint(new Type('int'));
     }
+
+    public function hasDefault(): bool
+    {
+        return is_int($this->default);
+    }
 }
