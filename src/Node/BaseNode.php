@@ -34,6 +34,11 @@ class BaseNode
     protected $type = 'array';
 
     /**
+     * @var string
+     */
+    protected $typeAlias = 'array';
+
+    /**
      * @var bool
      */
     protected $required = true;
@@ -86,6 +91,16 @@ class BaseNode
     public function setType(string $type)
     {
         $this->type = $type;
+    }
+
+    public function setTypeAlias(string $typeAlias)
+    {
+        $this->typeAlias = $typeAlias;
+    }
+
+    public function getTypeAlias(): string
+    {
+        return $this->typeAlias;
     }
 
     public function setRequired(bool $required)
