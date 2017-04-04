@@ -9,6 +9,10 @@ class ObjectNode extends BaseNode
     {
         $this->checkConstraints($field, $value);
 
+        if ($this->transformer) {
+            return $this->transformer->transform($value);
+        }
+
         return $this->instantiator->instantiate($this->type, $value);
     }
 }
