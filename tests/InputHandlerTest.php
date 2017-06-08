@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input;
 
+use Linio\Component\Input\Constraint\Range;
 use Linio\Component\Input\Instantiator\InstantiatorInterface;
 use Linio\Component\Input\Instantiator\PropertyInstantiator;
 use PHPUnit\Framework\TestCase;
@@ -68,6 +69,11 @@ class TestInputHandler extends InputHandler
         $this->add('date', 'datetime');
         $this->add('metadata', 'array');
 
+        $this->add('price', 'int', [
+            'required' => true,
+            'constraints' => [new Range(0)],
+        ]);
+
         $simple = $this->add('simple', 'array');
         $simple->add('title', 'string', ['default' => 'Barfoo']);
         $simple->add('size', 'int', ['required' => false, 'default' => 15]);
@@ -103,6 +109,7 @@ class InputHandlerTest extends TestCase
     public function testIsHandlingBasicInput()
     {
         $input = [
+            'price' => 'igor',
             'title' => 'Foobar',
             'size' => 35,
             'dimensions' => [11, 22, 33],
@@ -239,6 +246,7 @@ class InputHandlerTest extends TestCase
     public function testIsHandlingTypeJuggling()
     {
         $input = [
+            'price' => 'igor',
             'title' => '',
             'size' => 0,
             'dimensions' => [0, 0, 0],
@@ -351,6 +359,7 @@ class InputHandlerTest extends TestCase
             'title' => 'Barfoo',
             'size' => 20,
             'child' => [
+                'price' => 'igor',
                 'title' => 'Foobar',
                 'size' => 35,
                 'dimensions' => [11, 22, 33],
