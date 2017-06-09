@@ -1,10 +1,19 @@
 <?php
 
-$finder = Symfony\CS\Finder\DefaultFinder::create()
-    ->in(__DIR__ . '/src');
+$finder = PhpCsFixer\Finder::create()
+    ->in(__DIR__ . '/src')
+    ->in(__DIR__ . '/tests');
 
-return Symfony\CS\Config\Config::create()
-    ->level(Symfony\CS\FixerInterface::SYMFONY_LEVEL)
-    ->fixers(['concat_with_spaces', 'short_array_syntax', 'ordered_use', '-pre_increment'])
-    ->finder($finder)
+return PhpCsFixer\Config::create()
+    ->setRules([
+        '@Symfony' => true,
+        'concat_space' => ['spacing' => 'one'],
+        'array_syntax' => ['syntax' => 'short'],
+        'ordered_imports' => true,
+        'pre_increment' => false,
+        'phpdoc_order' => true,
+        'blank_line_after_opening_tag' => true,
+        'phpdoc_align' => false,
+    ])
+    ->setFinder($finder)
     ->setUsingCache(true);
