@@ -9,7 +9,7 @@ install:
   - travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
-  - bin/phpunit --verbose
+  - vendor/bin/phpunit --verbose
 
 matrix:
   fast_finish: true

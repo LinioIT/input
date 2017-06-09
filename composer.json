@@ -11,9 +11,6 @@
     "require-dev": {
         "phpunit/phpunit": "~5.0"
     },
-    "config": {
-        "bin-dir": "bin"
-    },
     "autoload": {
         "psr-4": {
             "Linio\\Component\\Input\\": "src"
