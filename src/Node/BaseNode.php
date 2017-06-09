@@ -73,6 +73,11 @@ class BaseNode
         $this->constraints[] = $constraint;
     }
 
+    public function addConstraints(array $constraints)
+    {
+        $this->constraints = array_merge($this->constraints, $constraints);
+    }
+
     public function setTransformer(TransformerInterface $transformer)
     {
         $this->transformer = $transformer;
@@ -158,7 +163,7 @@ class BaseNode
         }
 
         if (isset($options['constraints'])) {
-            $child->setConstraints($options['constraints']);
+            $child->addConstraints($options['constraints']);
         }
 
         if (isset($options['allow_null'])) {
