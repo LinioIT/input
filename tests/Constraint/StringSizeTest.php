@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
-class StringSizeTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class StringSizeTest extends TestCase
 {
     public function testIsCheckingInvalidData()
     {

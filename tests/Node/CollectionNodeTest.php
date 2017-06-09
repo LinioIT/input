@@ -7,8 +7,9 @@ namespace Linio\Component\Input\Node;
 use Linio\Component\Input\Constraint\ConstraintInterface;
 use Linio\Component\Input\Instantiator\InstantiatorInterface;
 use Linio\Component\Input\TypeHandler;
+use PHPUnit\Framework\TestCase;
 
-class CollectionNodeTest extends \PHPUnit_Framework_TestCase
+class CollectionNodeTest extends TestCase
 {
     public function testIsGettingValue()
     {

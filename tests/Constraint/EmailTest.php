@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
-class EmailTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class EmailTest extends TestCase
 {
     public function testIsCheckingInvalidData()
     {

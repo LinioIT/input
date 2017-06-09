@@ -6,8 +6,9 @@ namespace Linio\Component\Input\Node;
 
 use Linio\Component\Input\Constraint\ConstraintInterface;
 use Linio\Component\Input\TypeHandler;
+use PHPUnit\Framework\TestCase;
 
-class ScalarCollectionNodeTest extends \PHPUnit_Framework_TestCase
+class ScalarCollectionNodeTest extends TestCase
 {
     public function testIsGettingValue()
     {

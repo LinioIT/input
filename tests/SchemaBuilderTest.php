@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input;
 
+use PHPUnit\Framework\TestCase;
+
 class SchemaTestInputHandler extends InputHandler
 {
     public function define()
@@ -29,7 +31,7 @@ class SchemaTestInputHandler extends InputHandler
     }
 }
 
-class SchemaBuilderTest extends \PHPUnit_Framework_TestCase
+class SchemaBuilderTest extends TestCase
 {
     public function testIsBuildingSchema()
     {

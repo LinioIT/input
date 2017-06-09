@@ -8,8 +8,9 @@ use Linio\Component\Input\Constraint\NotNull;
 use Linio\Component\Input\Constraint\StringSize;
 use Linio\Component\Input\Transformer\DateTimeTransformer;
 use Linio\Component\Input\TypeHandler;
+use PHPUnit\Framework\TestCase;
 
-class BaseNodeTest extends \PHPUnit_Framework_TestCase
+class BaseNodeTest extends TestCase
 {
     public function testIsAddingChildNode()
     {
@@ -97,7 +98,8 @@ class BaseNodeTest extends \PHPUnit_Framework_TestCase
         $base = new BaseNode();
         $base->setTypeHandler($typeHandler->reveal());
         $child = $base->add('foobar', 'string', ['allow_null' => true, 'constraints' => [new NotNull()]]);
-        $child->getValue('foobar', null);
+
+        $this->assertNull($child->getValue('foobar', null));
     }
 
     public function testIsGettingTransformedValue()

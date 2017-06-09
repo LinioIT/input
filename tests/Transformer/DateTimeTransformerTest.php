@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Transformer;
 
-class DateTimeTransformerTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DateTimeTransformerTest extends TestCase
 {
     public function testIsTransformingIntoDateTime()
     {

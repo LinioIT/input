@@ -6,6 +6,7 @@ namespace Linio\Component\Input;
 
 use Linio\Component\Input\Instantiator\InstantiatorInterface;
 use Linio\Component\Input\Instantiator\PropertyInstantiator;
+use PHPUnit\Framework\TestCase;
 
 class TestUser
 {
@@ -97,7 +98,7 @@ class TestRecursiveInputHandler extends InputHandler
     }
 }
 
-class InputHandlerTest extends \PHPUnit_Framework_TestCase
+class InputHandlerTest extends TestCase
 {
     public function testIsHandlingBasicInput()
     {

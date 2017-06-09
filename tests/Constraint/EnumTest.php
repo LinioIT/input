@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
-class EnumTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class EnumTest extends TestCase
 {
     public function testIsCheckingInvalidData()
     {
