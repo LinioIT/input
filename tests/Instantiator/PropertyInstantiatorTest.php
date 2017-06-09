@@ -1,11 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Linio\Component\Input\Instantiator;
 
 use Linio\Component\Input\TestUser;
+use PHPUnit\Framework\TestCase;
 
-class PropertyInstantiatorTest extends \PHPUnit_Framework_TestCase
+class PropertyInstantiatorTest extends TestCase
 {
     public function testIsCreatingInstances()
     {

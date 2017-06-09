@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
-use Linio\Component\Input\Constraint\StringSize;
+use PHPUnit\Framework\TestCase;
 
-class StringSizeTest extends \PHPUnit_Framework_TestCase
+class StringSizeTest extends TestCase
 {
     public function testIsCheckingInvalidData()
     {

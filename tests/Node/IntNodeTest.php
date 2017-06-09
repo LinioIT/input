@@ -2,7 +2,9 @@
 
 namespace Linio\Component\Input\Node;
 
-class IntNodeTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class IntNodeTest extends TestCase
 {
     public function testIsReturningTrueForDefaultValueZero()
     {

@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Linio\Component\Input\Transformer;
 
-use Linio\Component\Input\Transformer\DateTimeTransformer;
+use PHPUnit\Framework\TestCase;
 
-class DateTimeTransformerTest extends \PHPUnit_Framework_TestCase
+class DateTimeTransformerTest extends TestCase
 {
     public function testIsTransformingIntoDateTime()
     {
