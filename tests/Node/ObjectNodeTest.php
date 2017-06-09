@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Linio\Component\Input\Node;
 
 use Linio\Component\Input\Constraint\ConstraintInterface;
+use Linio\Component\Input\Exception\InvalidConstraintException;
 use Linio\Component\Input\Instantiator\InstantiatorInterface;
 use Linio\Component\Input\TypeHandler;
 use PHPUnit\Framework\TestCase;
@@ -32,9 +33,6 @@ class ObjectNodeTest extends TestCase
         $this->assertEquals($expectedObj, $child->getValue('foobar', $expectedInput));
     }
 
-    /**
-     * @expectedException \Linio\Component\Input\Exception\InvalidConstraintException
-     */
     public function testIsCheckingConstraintsOnValue()
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
@@ -48,6 +46,8 @@ class ObjectNodeTest extends TestCase
         $base->setTypeHandler($typeHandler->reveal());
         $child = $base->add('foobar', 'DateTime', ['constraints' => [$constraint->reveal()]]);
         $child->setType('DateTime');
+
+        $this->expectException(InvalidConstraintException::class);
         $child->getValue('foobar', ['timestamp' => 1389312000]);
     }
 }

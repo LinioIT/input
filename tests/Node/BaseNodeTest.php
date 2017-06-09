@@ -6,6 +6,7 @@ namespace Linio\Component\Input\Node;
 
 use Linio\Component\Input\Constraint\NotNull;
 use Linio\Component\Input\Constraint\StringSize;
+use Linio\Component\Input\Exception\InvalidConstraintException;
 use Linio\Component\Input\Transformer\DateTimeTransformer;
 use Linio\Component\Input\TypeHandler;
 use PHPUnit\Framework\TestCase;
@@ -76,9 +77,6 @@ class BaseNodeTest extends TestCase
         $this->assertEquals('foobar', $child->getValue('foobar', 'foobar'));
     }
 
-    /**
-     * @expectedException \Linio\Component\Input\Exception\InvalidConstraintException
-     */
     public function testIsCheckingConstraintsOnValue()
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
@@ -87,6 +85,8 @@ class BaseNodeTest extends TestCase
         $base = new BaseNode();
         $base->setTypeHandler($typeHandler->reveal());
         $child = $base->add('foobar', 'string', ['constraints' => [new StringSize(2, 5)]]);
+
+        $this->expectException(InvalidConstraintException::class);
         $child->getValue('foobar', 'foobar');
     }
 
