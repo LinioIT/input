@@ -40,6 +40,23 @@ class BaseNodeTest extends TestCase
         $this->assertCount(1, $base->getChildren());
     }
 
+    public function testIsNotOverridingNodeConstraints()
+    {
+        $typeHandler = $this->prophesize(TypeHandler::class);
+        $typeHandler->getType('string')->willReturn(new class extends StringNode {
+            public function getConstraints(): array
+            {
+                return $this->constraints;
+            }
+        });
+
+        $base = new BaseNode();
+        $base->setTypeHandler($typeHandler->reveal());
+        $child = $base->add('foobar', 'string', ['constraints' => [new NotNull()]]);
+
+        $this->assertCount(2, $child->getConstraints());
+    }
+
     public function testIsRemovingChildNode()
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
