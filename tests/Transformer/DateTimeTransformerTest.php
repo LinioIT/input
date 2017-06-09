@@ -1,9 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Linio\Component\Input\Transformer;
-
-use Linio\Component\Input\Transformer\DateTimeTransformer;
 
 class DateTimeTransformerTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Linio\Component\Input\Node;
 
 use Linio\Component\Input\Constraint\NotNull;
-use Linio\Component\Input\TypeHandler;
 use Linio\Component\Input\Constraint\StringSize;
 use Linio\Component\Input\Transformer\DateTimeTransformer;
+use Linio\Component\Input\TypeHandler;
 
 class BaseNodeTest extends \PHPUnit_Framework_TestCase
 {
@@ -75,7 +76,7 @@ class BaseNodeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Linio\Component\Input\Exception\InvalidConstraintException
+     * @expectedException \Linio\Component\Input\Exception\InvalidConstraintException
      */
     public function testIsCheckingConstraintsOnValue()
     {

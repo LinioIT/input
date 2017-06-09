@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Linio\Component\Input;
 
 use Linio\Component\Input\Instantiator\InstantiatorInterface;
 use Linio\Component\Input\Instantiator\PropertyInstantiator;
-use Prophecy\Argument;
 
 class TestUser
 {
@@ -135,7 +135,7 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
                     'name' => 'C',
                     'age' => 38,
                     'birthday' => '2000-01-03',
-                ]
+                ],
             ],
         ];
 
@@ -222,7 +222,7 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
                     'name' => 'C',
                     'age' => 38,
                     'birthday' => '2000-01-01',
-                ]
+                ],
             ],
         ];
 
@@ -272,7 +272,7 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
                     'name' => 'C',
                     'age' => 38,
                     'birthday' => '2000-01-01',
-                ]
+                ],
             ],
         ];
 
@@ -326,7 +326,7 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
                     'name' => 'C',
                     'age' => 38,
                     'birthday' => '2000-01-01',
-                ]
+                ],
             ],
         ];
 

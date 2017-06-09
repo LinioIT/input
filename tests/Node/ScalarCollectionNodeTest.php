@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Linio\Component\Input\Node;
 
-use Linio\Component\Input\TypeHandler;
 use Linio\Component\Input\Constraint\ConstraintInterface;
+use Linio\Component\Input\TypeHandler;
 
 class ScalarCollectionNodeTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,7 +22,7 @@ class ScalarCollectionNodeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Linio\Component\Input\Exception\InvalidConstraintException
+     * @expectedException \Linio\Component\Input\Exception\InvalidConstraintException
      * @expectedExceptionMessage Value "25" is not of type int
      */
     public function testIsDetectingBadTypes()
@@ -37,7 +38,7 @@ class ScalarCollectionNodeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Linio\Component\Input\Exception\InvalidConstraintException
+     * @expectedException \Linio\Component\Input\Exception\InvalidConstraintException
      */
     public function testIsCheckingConstraintsOnValue()
     {
