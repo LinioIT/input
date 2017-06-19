@@ -21,22 +21,21 @@ class PasswordTest extends TestCase
         bool $mustHaveDigitsOrSymbols,
         string $content,
         bool $expectedResult
-    )
-    {
+    ) {
         $constraint = new Password($minLength, $maxLength, $mustHaveUpperCase, $mustHaveLowerCase, $mustHaveDigits, $mustHaveSymbols, $mustHaveDigitsOrSymbols);
         $this->assertEquals($expectedResult, $constraint->validate($content));
     }
 
     public function testIsGettingErrorMessage()
     {
-        $constraint = new Password(1,2,true, true, true, true, true);
+        $constraint = new Password(1, 2, true, true, true, true, true);
         $this->assertFalse($constraint->validate(''));
         $this->assertEquals('[field] Invalid password format', $constraint->getErrorMessage('field'));
     }
 
     public function testErrorMessageIsCustomizable()
     {
-        $constraint = new Password(1,2,true, true, true, true, true, 'CUSTOM!');
+        $constraint = new Password(1, 2, true, true, true, true, true, 'CUSTOM!');
         $this->assertSame('[field] CUSTOM!', $constraint->getErrorMessage('field'));
     }
 
