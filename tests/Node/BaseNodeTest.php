@@ -43,7 +43,7 @@ class BaseNodeTest extends TestCase
     public function testIsNotOverridingNodeConstraints()
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
-        $typeHandler->getType('string')->willReturn(new class extends StringNode {
+        $typeHandler->getType('string')->willReturn(new class() extends StringNode {
             public function getConstraints(): array
             {
                 return $this->constraints;

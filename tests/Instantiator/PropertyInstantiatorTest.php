@@ -14,6 +14,6 @@ class PropertyInstantiatorTest extends TestCase
         $instantiator = new PropertyInstantiator();
         $instance = $instantiator->instantiate(TestUser::class, ['is_active' => true]);
         $this->assertInstanceOf(TestUser::class, $instance);
-        $this->assertEquals(true, $instance->isActive);
+        $this->assertTrue($instance->isActive);
     }
 }
