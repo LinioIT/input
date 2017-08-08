@@ -14,6 +14,11 @@ class PatternTest extends TestCase
         $this->assertFalse($constraint->validate(null));
         $this->assertFalse($constraint->validate(' 2014-04-22 '));
         $this->assertFalse($constraint->validate('2014-04-2'));
+
+        $this->assertFalse($constraint->validate(['2014-04-22']));
+        $obj = new \stdClass();
+        $obj->var1 = '2014-04-22';
+        $this->assertFalse($constraint->validate($obj));
     }
 
     public function testIsCheckingValidData()

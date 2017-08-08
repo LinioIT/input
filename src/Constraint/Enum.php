@@ -28,6 +28,10 @@ class Enum extends Constraint
 
     public function validate($content): bool
     {
+        if (!is_scalar($content)) {
+            return false;
+        }
+
         return in_array($content, $this->enumValues, $this->strictType);
     }
 }

@@ -20,6 +20,10 @@ class Pattern extends Constraint
 
     public function validate($content): bool
     {
+        if (!is_scalar($content)) {
+            return false;
+        }
+
         if (!$content) {
             return false;
         }

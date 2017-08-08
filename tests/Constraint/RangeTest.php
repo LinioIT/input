@@ -14,6 +14,11 @@ class RangeTest extends TestCase
         $this->assertFalse($constraint->validate(120));
         $this->assertFalse($constraint->validate(101));
         $this->assertFalse($constraint->validate(null));
+
+        $this->assertFalse($constraint->validate([75]));
+        $obj = new \stdClass();
+        $obj->var1 = 75;
+        $this->assertFalse($constraint->validate($obj));
     }
 
     public function testIsCheckingValidData()

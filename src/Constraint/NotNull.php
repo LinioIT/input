@@ -13,7 +13,7 @@ class NotNull extends Constraint
 
     public function validate($content): bool
     {
-        if ($content) {
+        if ($content && is_string($content)) {
             $content = trim($content);
         }
 

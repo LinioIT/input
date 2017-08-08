@@ -13,6 +13,11 @@ class DateRangeTest extends TestCase
         $constraint = new DateRange('today', '+3 days');
         $this->assertFalse($constraint->validate('yesterday'));
         $this->assertFalse($constraint->validate('+8 days'));
+
+        $this->assertFalse($constraint->validate(['now']));
+        $obj = new \stdClass();
+        $obj->var1 = 'now';
+        $this->assertFalse($constraint->validate($obj));
     }
 
     public function testIsCheckingValidData()

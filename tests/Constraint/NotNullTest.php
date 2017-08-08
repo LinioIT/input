@@ -22,6 +22,11 @@ class NotNullTest extends TestCase
         $constraint = new NotNull();
         $this->assertTrue($constraint->validate(' test '));
         $this->assertTrue($constraint->validate(0));
+
+        $this->assertTrue($constraint->validate(['']));
+        $obj = new \stdClass();
+        $obj->var1 = '';
+        $this->assertTrue($constraint->validate($obj));
     }
 
     public function testIsGettingErrorMessage()
