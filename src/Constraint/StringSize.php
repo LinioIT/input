@@ -28,6 +28,10 @@ class StringSize extends Constraint
 
     public function validate($content): bool
     {
+        if (!is_scalar($content)) {
+            return false;
+        }
+
         if ($content === null) {
             return false;
         }
