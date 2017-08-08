@@ -19,6 +19,14 @@ class StringSizeTest extends TestCase
 
         $this->assertFalse($constraint1->validate(null));
         $this->assertFalse($constraint2->validate(null));
+
+        $this->assertFalse($constraint1->validate(['abcd']));
+        $this->assertFalse($constraint2->validate(['abcd']));
+
+        $obj = new \stdClass();
+        $obj->var1 = 'abcd';
+        $this->assertFalse($constraint1->validate($obj));
+        $this->assertFalse($constraint2->validate($obj));
     }
 
     public function testIsCheckingValidData()
