@@ -13,6 +13,11 @@ class EnumTest extends TestCase
         $constraint = new Enum(['foo', 'bar']);
         $this->assertFalse($constraint->validate('test'), 'The "test" value is not part of the Enum');
         $this->assertFalse($constraint->validate('blah'), 'The "blah" value is not part of the Enum');
+
+        $this->assertFalse($constraint->validate(['foo']));
+        $obj = new \stdClass();
+        $obj->var1 = 'foo';
+        $this->assertFalse($constraint->validate($obj));
     }
 
     public function testIsCheckingInvalidDataWithStrictType()
