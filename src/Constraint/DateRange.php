@@ -29,7 +29,7 @@ class DateRange extends Constraint
         if (!is_scalar($content)) {
             return false;
         }
-        
+
         $date = new \DateTime($content);
 
         return $date >= new \DateTime($this->min) && $date <= new \DateTime($this->max);
