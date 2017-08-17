@@ -56,8 +56,9 @@ abstract class InputHandler
         $this->root = $this->typeHandler->getType($type);
     }
 
-    public function bind(array $input)
+    public function bind(array $input, array $defaults = [])
     {
+        $this->root->setDefaults($defaults);
         $this->define();
 
         try {

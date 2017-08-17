@@ -64,6 +64,11 @@ class BaseNode
      */
     protected $allowNull = false;
 
+    /**
+     * @var array
+     */
+    protected $defaults = [];
+
     public function setConstraints(array $constraints)
     {
         $this->constraints = $constraints;
@@ -134,6 +139,30 @@ class BaseNode
         return (bool) $this->default;
     }
 
+    /**
+     * Gets the value of defaults.
+     *
+     * @return array
+     */
+    public function getDefaults(): array
+    {
+        return $this->defaults;
+    }
+
+    /**
+     * Sets the value of defaults.
+     *
+     * @param array $defaults the defaults
+     *
+     * @return self
+     */
+    public function setDefaults(array $defaults): self
+    {
+        $this->defaults = $defaults;
+
+        return $this;
+    }
+
     public function add(string $key, string $type, array $options = []): BaseNode
     {
         $child = $this->typeHandler->getType($type);
@@ -169,6 +198,10 @@ class BaseNode
 
         if (isset($options['allow_null'])) {
             $child->setAllowNull($options['allow_null']);
+        }
+
+        if (array_key_exists($key, $this->defaults)) {
+            $child->setDefault($this->defaults[$key]);
         }
 
         $this->children[$key] = $child;
