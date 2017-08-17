@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
-use Linio\Component\Input\Constraint\Pattern;
+use PHPUnit\Framework\TestCase;
 
-class PatternTest extends \PHPUnit_Framework_TestCase
+class PatternTest extends TestCase
 {
     public function testIsCheckingInvalidData()
     {
@@ -13,6 +14,11 @@ class PatternTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($constraint->validate(null));
         $this->assertFalse($constraint->validate(' 2014-04-22 '));
         $this->assertFalse($constraint->validate('2014-04-2'));
+
+        $this->assertFalse($constraint->validate(['2014-04-22']));
+        $obj = new \stdClass();
+        $obj->var1 = '2014-04-22';
+        $this->assertFalse($constraint->validate($obj));
     }
 
     public function testIsCheckingValidData()

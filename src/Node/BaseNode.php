@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Linio\Component\Input\Node;
@@ -32,6 +33,11 @@ class BaseNode
      * @var string
      */
     protected $type = 'array';
+
+    /**
+     * @var string
+     */
+    protected $typeAlias = 'array';
 
     /**
      * @var bool
@@ -68,6 +74,11 @@ class BaseNode
         $this->constraints[] = $constraint;
     }
 
+    public function addConstraints(array $constraints)
+    {
+        $this->constraints = array_merge($this->constraints, $constraints);
+    }
+
     public function setTransformer(TransformerInterface $transformer)
     {
         $this->transformer = $transformer;
@@ -86,6 +97,16 @@ class BaseNode
     public function setType(string $type)
     {
         $this->type = $type;
+    }
+
+    public function setTypeAlias(string $typeAlias)
+    {
+        $this->typeAlias = $typeAlias;
+    }
+
+    public function getTypeAlias(): string
+    {
+        return $this->typeAlias;
     }
 
     public function setRequired(bool $required)
@@ -143,7 +164,7 @@ class BaseNode
         }
 
         if (isset($options['constraints'])) {
-            $child->setConstraints($options['constraints']);
+            $child->addConstraints($options['constraints']);
         }
 
         if (isset($options['allow_null'])) {

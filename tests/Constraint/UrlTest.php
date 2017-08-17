@@ -1,9 +1,12 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
-class UrlTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class UrlTest extends TestCase
 {
     public function testIsCheckingInvalidData()
     {

@@ -1,9 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
-class RangeTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class RangeTest extends TestCase
 {
     public function testIsCheckingInvalidData()
     {
@@ -11,6 +14,11 @@ class RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($constraint->validate(120));
         $this->assertFalse($constraint->validate(101));
         $this->assertFalse($constraint->validate(null));
+
+        $this->assertFalse($constraint->validate([75]));
+        $obj = new \stdClass();
+        $obj->var1 = 75;
+        $this->assertFalse($constraint->validate($obj));
     }
 
     public function testIsCheckingValidData()

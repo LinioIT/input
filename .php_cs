@@ -1,10 +1,32 @@
 <?php
 
-$finder = Symfony\CS\Finder\DefaultFinder::create()
-    ->in(__DIR__ . '/src');
+$finder = PhpCsFixer\Finder::create()
+    ->in(__DIR__ . '/src')
+    ->in(__DIR__ . '/tests');
 
-return Symfony\CS\Config\Config::create()
-    ->level(Symfony\CS\FixerInterface::SYMFONY_LEVEL)
-    ->fixers(['concat_with_spaces', 'short_array_syntax', 'ordered_use', '-pre_increment'])
-    ->finder($finder)
-    ->setUsingCache(true);
+return PhpCsFixer\Config::create()
+    ->setRules([
+        '@Symfony' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'blank_line_after_opening_tag' => true,
+        'concat_space' => ['spacing' => 'one'],
+        'declare_strict_types' => true,
+        'is_null' => ['use_yoda_style' => false],
+        'list_syntax' => ['syntax' => 'short'],
+        'method_argument_space' => ['ensure_fully_multiline' => true],
+        'modernize_types_casting' => true,
+        'no_multiline_whitespace_before_semicolons' => true,
+        'no_useless_else' => true,
+        'no_useless_return' => true,
+        'ordered_imports' => true,
+        'phpdoc_align' => false,
+        'phpdoc_order' => true,
+        'php_unit_construct' => true,
+        'php_unit_dedicate_assert' => true,
+        'pre_increment' => false,
+        'single_line_comment_style' => true,
+        'ternary_to_null_coalescing' => true,
+    ])
+    ->setFinder($finder)
+    ->setUsingCache(true)
+    ->setRiskyAllowed(true);

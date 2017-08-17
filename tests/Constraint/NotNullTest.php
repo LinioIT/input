@@ -1,9 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
 
-class NotNullTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class NotNullTest extends TestCase
 {
     public function testIsCheckingInvalidData()
     {
@@ -19,6 +22,11 @@ class NotNullTest extends \PHPUnit_Framework_TestCase
         $constraint = new NotNull();
         $this->assertTrue($constraint->validate(' test '));
         $this->assertTrue($constraint->validate(0));
+
+        $this->assertTrue($constraint->validate(['']));
+        $obj = new \stdClass();
+        $obj->var1 = '';
+        $this->assertTrue($constraint->validate($obj));
     }
 
     public function testIsGettingErrorMessage()

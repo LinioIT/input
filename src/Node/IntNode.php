@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Linio\Component\Input\Node;
@@ -10,5 +11,10 @@ class IntNode extends BaseNode
     public function __construct()
     {
         $this->addConstraint(new Type('int'));
+    }
+
+    public function hasDefault(): bool
+    {
+        return is_int($this->default);
     }
 }

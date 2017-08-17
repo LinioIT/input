@@ -1,15 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Linio\Component\Input;
 
 use Linio\Component\Input\Node\BaseNode;
-use Linio\Component\Input\Node\ObjectNode;
-use Linio\Component\Input\Node\DateTimeNode;
-use Linio\Component\Input\Node\ScalarCollectionNode;
 use Linio\Component\Input\Node\CollectionNode;
+use Linio\Component\Input\Node\DateTimeNode;
+use Linio\Component\Input\Node\ObjectNode;
+use Linio\Component\Input\Node\ScalarCollectionNode;
+use PHPUnit\Framework\TestCase;
 
-class TypeHandlerTest extends \PHPUnit_Framework_TestCase
+class TypeHandlerTest extends TestCase
 {
     public function testIsAddingTypes()
     {

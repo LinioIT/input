@@ -6,3 +6,4 @@ composer.lock
 phpunit.xml
 cache.properties
 .php_cs.cache
+.idea/

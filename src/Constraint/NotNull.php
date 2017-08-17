@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Linio\Component\Input\Constraint;
@@ -12,7 +13,7 @@ class NotNull extends Constraint
 
     public function validate($content): bool
     {
-        if ($content) {
+        if ($content && is_string($content)) {
             $content = trim($content);
         }
 
