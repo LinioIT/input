@@ -12,9 +12,13 @@ class ScalarCollectionNode extends BaseNode
     {
         $this->checkConstraints($field, $value);
 
-        foreach ($value as $scalarValue) {
+        foreach ($value as &$scalarValue) {
             if (!call_user_func('is_' . $this->type, $scalarValue)) {
                 throw new InvalidConstraintException(sprintf('Value "%s" is not of type %s', $scalarValue, $this->type));
+            }
+
+            if ($this->transformer) {
+                $scalarValue = $this->transformer->transform($scalarValue);
             }
         }
 
