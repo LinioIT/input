@@ -20,6 +20,12 @@ class Type extends Constraint
 
     public function validate($content): bool
     {
+        if ($this->type === 'datetime') {
+            $date = date_parse($content);
+
+            return $date['error_count'] ? false : true;
+        }
+
         return call_user_func('is_' . $this->type, $content);
     }
 }

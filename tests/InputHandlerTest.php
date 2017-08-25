@@ -445,10 +445,32 @@ class InputHandlerTest extends TestCase
     public function testOverride()
     {
         $input = [
-            'price' => 'igor'
+            'price' => 'igor',
         ];
 
         $inputHandler = new TestConstraintOverrideType();
+        $inputHandler->bind($input);
+        $this->assertFalse($inputHandler->isValid());
+    }
+
+    public function testDatetimeEmptyDatetime()
+    {
+        $input = [
+            'date' => '',
+        ];
+
+        $inputHandler = new TestDatetimeNotValidatingDate();
+        $inputHandler->bind($input);
+        $this->assertFalse($inputHandler->isValid());
+    }
+
+    public function testDatetimeInvalidDatetime()
+    {
+        $input = [
+            'date' => 'Invalid%20date',
+        ];
+
+        $inputHandler = new TestDatetimeNotValidatingDate();
         $inputHandler->bind($input);
         $this->assertFalse($inputHandler->isValid());
     }
@@ -460,10 +482,17 @@ class TestConstraintOverrideType extends InputHandler
     {
         $this->add('price', 'int', [
             'required' => true,
-            'constraints' => [new Range(0)]
+            'constraints' => [new Range(0)],
         ]);
     }
 }
 
-
-
+class TestDatetimeNotValidatingDate extends InputHandler
+{
+    public function define()
+    {
+        $this->add('date', 'datetime', [
+            'required' => true,
+        ]);
+    }
+}
