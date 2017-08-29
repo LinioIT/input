@@ -453,21 +453,32 @@ class InputHandlerTest extends TestCase
         $this->assertFalse($inputHandler->isValid());
     }
 
-    public function testDatetimeEmptyDatetime()
+    public function invalidDateProvider() : \Generator
     {
-        $input = [
-            'date' => '',
-        ];
+        yield [''];
 
-        $inputHandler = new TestDatetimeNotValidatingDate();
-        $inputHandler->bind($input);
-        $this->assertFalse($inputHandler->isValid());
+        yield ['Invalid%20date'];
+
+        yield [123];
+
+        yield [false];
+
+        yield [true];
+
+        yield [[]];
+
+        yield [null];
     }
 
-    public function testDatetimeInvalidDatetime()
+    /**
+     * @dataProvider invalidDateProvider
+     *
+     * @param mixed $datetime
+     */
+    public function testDatetimeInvalidDatetimeInput($datetime)
     {
         $input = [
-            'date' => 'Invalid%20date',
+            'date' => $datetime,
         ];
 
         $inputHandler = new TestDatetimeNotValidatingDate();
