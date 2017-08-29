@@ -453,7 +453,7 @@ class InputHandlerTest extends TestCase
         $this->assertFalse($inputHandler->isValid());
     }
 
-    public function invalidDateProvider() : \Generator
+    public function invalidDateProvider(): \Generator
     {
         yield [''];
 

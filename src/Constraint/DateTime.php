@@ -13,6 +13,7 @@ class DateTime extends Constraint
         }
 
         $date = date_parse($content);
+
         return $date['error_count'] ? false : true;
     }
 }
