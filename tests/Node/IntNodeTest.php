@@ -15,4 +15,22 @@ class IntNodeTest extends TestCase
 
         $this->assertTrue($node->hasDefault());
     }
+
+    public function testIsReturningNullForDefaultValueNullWhenNullIsAllowed()
+    {
+        $node = new IntNode();
+        $node->setAllowNull(true);
+        $node->setDefault(null);
+
+        $this->assertTrue($node->hasDefault());
+    }
+
+    public function testIsNotReturningNullForDefaultValueNullWhenNullIsNotAllowed()
+    {
+        $node = new IntNode();
+        $node->setAllowNull(false);
+        $node->setDefault(null);
+
+        $this->assertFalse($node->hasDefault());
+    }
 }
