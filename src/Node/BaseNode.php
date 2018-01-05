@@ -140,7 +140,7 @@ class BaseNode
         return $this->hasDefault;
     }
 
-    public function add(string $key, string $type, array $options = []): BaseNode
+    public function add(string $key, string $type, array $options = []): self
     {
         $child = $this->typeHandler->getType($type);
 
@@ -216,7 +216,7 @@ class BaseNode
 
     public function getValue(string $field, $value)
     {
-        if ($this->allowNull() && $value === null) {
+        if ($this->allowNull() && null === $value) {
             return $value;
         }
 
