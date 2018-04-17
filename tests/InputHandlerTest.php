@@ -99,6 +99,17 @@ class TestRecursiveInputHandler extends InputHandler
     }
 }
 
+class TestArrayOfObject extends InputHandler
+{
+    public function define()
+    {
+        $fans = $this->add('fans', 'Linio\Component\Input\TestUser[]');
+        $fans->add('name', 'string');
+        $fans->add('age', 'int');
+        $fans->add('birthday', 'datetime');
+    }
+}
+
 class InputHandlerTest extends TestCase
 {
     public function testIsHandlingBasicInput()
@@ -484,6 +495,40 @@ class InputHandlerTest extends TestCase
         $inputHandler = new TestDatetimeNotValidatingDate();
         $inputHandler->bind($input);
         $this->assertFalse($inputHandler->isValid());
+    }
+
+    public function testIsHandlingCollectionObjectWithNoError()
+    {
+        $input = [
+            'fans' => [
+                'name' => 'A',
+                'age' => 18,
+                'birthday' => '2000-01-01',
+            ],
+        ];
+
+        $inputHandler = new TestArrayOfObject();
+        $inputHandler->bind($input);
+
+        $errors = $inputHandler->getErrors();
+
+        $this->assertFalse($inputHandler->isValid());
+        $this->assertEquals('Value does not match type collection', $errors[0]);
+
+        $input = [
+            'fans' => [[
+                'name' => 'A',
+                'age' => 18,
+                'birthday' => '2000-01-01',
+            ]],
+        ];
+
+        $inputHandler = new TestArrayOfObject();
+        $inputHandler->bind($input);
+
+        $errors = $inputHandler->getErrors();
+
+        $this->assertTrue($inputHandler->isValid());
     }
 }
 
