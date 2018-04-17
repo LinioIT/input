@@ -99,8 +99,84 @@ class TestRecursiveInputHandler extends InputHandler
     }
 }
 
+class TestArrayOfObject extends InputHandler
+{
+    public function define()
+    {
+        $fans = $this->add('fans', 'Linio\Component\Input\TestUser[]');
+        $fans->add('name', 'string');
+        $fans->add('age', 'int');
+        $fans->add('birthday', 'datetime');
+    }
+}
+
+class DummyUser
+{
+    protected $id;
+
+    protected $name;
+
+    /**
+     * Gets the value of id.
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+}
+
+class TestDefaultsInputHandler extends InputHandler
+{
+    public function define()
+    {
+        $user = $this->add('user', DummyUser::class);
+        $user->add('name', 'string');
+    }
+}
+
 class InputHandlerTest extends TestCase
 {
+    public function testIsHandlingDefaults()
+    {
+        $input = [
+            'user' => [
+                'name' => 'Foo',
+            ],
+        ];
+
+        $user = new DummyUser();
+        $user->setId(1);
+        $user->setName('Bar');
+
+        $inputHandler = new TestDefaultsInputHandler();
+        $inputHandler->bind($input, ['user' => $user]);
+
+        // Basic fields
+        $this->assertEquals('Foo', $inputHandler->getData('user')->getName());
+        $this->assertEquals(1, $inputHandler->getData('user')->getId());
+    }
+
     public function testIsHandlingBasicInput()
     {
         $input = [
@@ -484,6 +560,40 @@ class InputHandlerTest extends TestCase
         $inputHandler = new TestDatetimeNotValidatingDate();
         $inputHandler->bind($input);
         $this->assertFalse($inputHandler->isValid());
+    }
+
+    public function testIsHandlingCollectionObjectWithNoError()
+    {
+        $input = [
+            'fans' => [
+                'name' => 'A',
+                'age' => 18,
+                'birthday' => '2000-01-01',
+            ],
+        ];
+
+        $inputHandler = new TestArrayOfObject();
+        $inputHandler->bind($input);
+
+        $errors = $inputHandler->getErrors();
+
+        $this->assertFalse($inputHandler->isValid());
+        $this->assertEquals('Value does not match type collection', $errors[0]);
+
+        $input = [
+            'fans' => [[
+                'name' => 'A',
+                'age' => 18,
+                'birthday' => '2000-01-01',
+            ]],
+        ];
+
+        $inputHandler = new TestArrayOfObject();
+        $inputHandler->bind($input);
+
+        $errors = $inputHandler->getErrors();
+
+        $this->assertTrue($inputHandler->isValid());
     }
 }
 

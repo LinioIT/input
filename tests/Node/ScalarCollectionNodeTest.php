@@ -8,6 +8,7 @@ use Linio\Component\Input\Constraint\ConstraintInterface;
 use Linio\Component\Input\Exception\InvalidConstraintException;
 use Linio\Component\Input\TypeHandler;
 use PHPUnit\Framework\TestCase;
+use Linio\Component\Input\Transformer\DateTimeTransformer;
 
 class ScalarCollectionNodeTest extends TestCase
 {
@@ -54,5 +55,20 @@ class ScalarCollectionNodeTest extends TestCase
 
         $this->expectException(InvalidConstraintException::class);
         $child->getValue('foobar', [15, 25, 36]);
+    }
+
+    public function testIsGetTransformed()
+    {
+        $typeHandler = $this->prophesize(TypeHandler::class);
+        $typeHandler->getType('string')->willReturn(new ScalarCollectionNode());
+
+        $base = new ScalarCollectionNode();
+        $base->setTypeHandler($typeHandler->reveal());
+        $child = $base->add('foobar', 'string', ['transformer' => new DateTimeTransformer()]);
+        $child->setType('string');
+        $this->assertEquals(
+            [new \DateTime('2014-01-01 00:00:00')],
+            $child->getValue('foobar', ['2014-01-01 00:00:00'])
+        );
     }
 }
