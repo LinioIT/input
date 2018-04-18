@@ -15,7 +15,7 @@ class GuidValue extends Constraint
 
     public function validate($content): bool
     {
-        if (!is_string($content) || strlen($content) != 36) {
+        if (!is_string($content) || 36 != strlen($content)) {
             return false;
         }
 

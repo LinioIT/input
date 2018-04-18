@@ -16,6 +16,6 @@ class SetInstantiatorTest extends TestCase
         $this->assertInstanceOf(TestUser::class, $instance);
         $this->assertEquals('foobar', $instance->getName());
         $this->assertEquals(20, $instance->getAge());
-        $this->assertEquals(true, $instance->isActive);
+        $this->assertTrue($instance->isActive);
     }
 }

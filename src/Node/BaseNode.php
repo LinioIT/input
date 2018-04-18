@@ -210,7 +210,7 @@ class BaseNode
 
     public function getValue(string $field, $value)
     {
-        if ($this->allowNull() && $value === null) {
+        if ($this->allowNull() && null === $value) {
             return $value;
         }
 
