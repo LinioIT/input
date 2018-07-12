@@ -27,8 +27,7 @@ markComment: >
   recent activity.
 
 # Comment to post when removing the stale label.
-unmarkComment: >
-  This issue is no longer marked as stale.
+unmarkComment: false
 
 # Comment to post when closing a stale Issue or Pull Request.
 # closeComment: >
