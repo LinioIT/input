@@ -285,7 +285,7 @@ class InputHandlerTest extends TestCase
         $this->assertEquals('', $inputHandler->getData('title'));
         $this->assertEquals(0, $inputHandler->getData('size'));
         $this->assertEquals([0, 0, 0], $inputHandler->getData('dimensions'));
-        $this->assertEquals(false, $inputHandler->getData('author')->isActive);
+        $this->assertFalse($inputHandler->getData('author')->isActive);
     }
 
     public function testIsHandlingInputValidationWithInstantiator()
