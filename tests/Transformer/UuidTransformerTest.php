@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Transformer;
 
+use Linio\Component\Input\Exception\TransformationException;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -23,7 +23,7 @@ class UuidTransformerTest extends TestCase
     {
         $transformer = new UuidTransformer();
 
-        $this->expectException(InvalidUuidStringException::class);
+        $this->expectException(TransformationException::class);
         $transformer->transform('d1d6228d-604c');
     }
 }
