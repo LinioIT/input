@@ -19,7 +19,7 @@ class UuidTransformerTest extends TestCase
         $this->assertEquals(Uuid::fromString('d1d6228d-604c-4a8a-9396-42e6c3b17754'), $transformed);
     }
 
-    public function testItDoesThrowsExceptionBecauseOfInvalidString()
+    public function testItDoesThrowExceptionBecauseOfInvalidString()
     {
         $transformer = new UuidTransformer();
 
