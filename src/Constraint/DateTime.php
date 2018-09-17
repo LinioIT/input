@@ -6,6 +6,11 @@ namespace Linio\Component\Input\Constraint;
 
 class DateTime extends Constraint
 {
+    public function __construct(string $errorMessage = null)
+    {
+        $this->setErrorMessage($errorMessage ?? 'Invalid date/time format');
+    }
+
     public function validate($content): bool
     {
         if (!is_string($content)) {
