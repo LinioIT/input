@@ -15,6 +15,6 @@ class IntNode extends BaseNode
 
     public function hasDefault(): bool
     {
-        return is_int($this->default);
+        return is_int($this->default) || (parent::hasDefault() && $this->allowNull() && null === $this->default);
     }
 }

@@ -30,7 +30,7 @@ class Range extends Constraint
             return false;
         }
 
-        if ($content === null) {
+        if (null === $content) {
             return false;
         }
 

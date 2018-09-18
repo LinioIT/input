@@ -129,4 +129,16 @@ class BaseNodeTest extends TestCase
         $child = $base->add('foobar', 'string', ['transformer' => new DateTimeTransformer()]);
         $this->assertEquals(new \DateTime('2014-01-01 00:00:00'), $child->getValue('foobar', '2014-01-01 00:00:00'));
     }
+
+    public function testIsAllowingToSetDefaultNull()
+    {
+        $typeHandler = $this->prophesize(TypeHandler::class);
+        $typeHandler->getType('string')->willReturn(new BaseNode());
+
+        $base = new BaseNode();
+        $base->setTypeHandler($typeHandler->reveal());
+        $child = $base->add('foobar', 'string', ['default' => null]);
+        $this->assertTrue($child->hasDefault());
+        $this->assertNull($child->getDefault());
+    }
 }

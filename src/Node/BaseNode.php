@@ -50,6 +50,11 @@ class BaseNode
     protected $default;
 
     /**
+     * @var bool
+     */
+    protected $hasDefault = false;
+
+    /**
      * @var BaseNode[]
      */
     protected $children = [];
@@ -117,6 +122,7 @@ class BaseNode
     public function setDefault($default)
     {
         $this->default = $default;
+        $this->hasDefault = true;
     }
 
     public function setAllowNull(bool $allowNull)
@@ -131,10 +137,10 @@ class BaseNode
 
     public function hasDefault(): bool
     {
-        return (bool) $this->default;
+        return $this->hasDefault;
     }
 
-    public function add(string $key, string $type, array $options = []): BaseNode
+    public function add(string $key, string $type, array $options = []): self
     {
         $child = $this->typeHandler->getType($type);
 
@@ -151,7 +157,7 @@ class BaseNode
             $child->setRequired($options['required']);
         }
 
-        if (isset($options['default'])) {
+        if (array_key_exists('default', $options)) {
             $child->setDefault($options['default']);
         }
 
@@ -210,7 +216,7 @@ class BaseNode
 
     public function getValue(string $field, $value)
     {
-        if ($this->allowNull() && $value === null) {
+        if ($this->allowNull() && null === $value) {
             return $value;
         }
 

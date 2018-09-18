@@ -17,6 +17,6 @@ class NotNull extends Constraint
             $content = trim($content);
         }
 
-        return $content !== null && $content !== '';
+        return null !== $content && '' !== $content;
     }
 }

@@ -38,12 +38,12 @@ class TestUser
         $this->age = $age;
     }
 
-    public function getRelated(): TestUser
+    public function getRelated(): self
     {
         return $this->related;
     }
 
-    public function setRelated(TestUser $related)
+    public function setRelated(self $related)
     {
         $this->related = $related;
     }

@@ -8,7 +8,7 @@ class DateTimeTransformer implements TransformerInterface
 {
     public function transform($value)
     {
-        if ($value === null) {
+        if (null === $value) {
             return;
         }
 
