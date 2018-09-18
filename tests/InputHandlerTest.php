@@ -38,12 +38,12 @@ class TestUser
         $this->age = $age;
     }
 
-    public function getRelated(): TestUser
+    public function getRelated(): self
     {
         return $this->related;
     }
 
-    public function setRelated(TestUser $related)
+    public function setRelated(self $related)
     {
         $this->related = $related;
     }
@@ -96,6 +96,17 @@ class TestRecursiveInputHandler extends InputHandler
         $this->add('title', 'string');
         $this->add('size', 'int');
         $this->add('child', \stdClass::class, ['handler' => new TestInputHandler(), 'instantiator' => new PropertyInstantiator()]);
+    }
+}
+
+class TestArrayOfObject extends InputHandler
+{
+    public function define()
+    {
+        $fans = $this->add('fans', 'Linio\Component\Input\TestUser[]');
+        $fans->add('name', 'string');
+        $fans->add('age', 'int');
+        $fans->add('birthday', 'datetime');
     }
 }
 
@@ -484,6 +495,42 @@ class InputHandlerTest extends TestCase
         $inputHandler = new TestDatetimeNotValidatingDate();
         $inputHandler->bind($input);
         $this->assertFalse($inputHandler->isValid());
+    }
+
+    public function testIsHandlingCollectionObjectWithNoError()
+    {
+        $input = [
+            'fans' => [
+                'name' => 'A',
+                'age' => 18,
+                'birthday' => '2000-01-01',
+            ],
+        ];
+
+        $inputHandler = new TestArrayOfObject();
+        $inputHandler->bind($input);
+
+        $errors = $inputHandler->getErrors();
+
+        $this->assertFalse($inputHandler->isValid());
+        $this->assertEquals('Value does not match expected type object i.e "{}"', $errors[0]);
+
+        $input = [
+            'fans' => [
+                [
+                    'name' => 'A',
+                    'age' => 18,
+                    'birthday' => '2000-01-01',
+                ],
+            ],
+        ];
+
+        $inputHandler = new TestArrayOfObject();
+        $inputHandler->bind($input);
+
+        $errors = $inputHandler->getErrors();
+
+        $this->assertTrue($inputHandler->isValid());
     }
 }
 

@@ -95,7 +95,7 @@ class TypeHandler
 
     protected function isClassType(string $type): bool
     {
-        return (class_exists($type) || interface_exists($type)) && $type != 'datetime';
+        return (class_exists($type) || interface_exists($type)) && 'datetime' != $type;
     }
 
     protected function isCollectionType(string $type): bool
@@ -124,7 +124,7 @@ class TypeHandler
     {
         $pos = strrpos($type, '[]');
 
-        if ($pos === false) {
+        if (false === $pos) {
             return $type;
         }
 
