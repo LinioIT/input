@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Node;
 
+use Linio\Component\Input\Constraint\Type;
 use Linio\Component\Input\Exception\InvalidConstraintException;
 
 class ScalarCollectionNode extends BaseNode
 {
+    public function __construct()
+    {
+        $this->addConstraint(new Type('iterable', 'Value does not match type: array'));
+    }
+
     public function getValue(string $field, $value)
     {
         $this->checkConstraints($field, $value);

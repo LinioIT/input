@@ -55,4 +55,20 @@ class ScalarCollectionNodeTest extends TestCase
         $this->expectException(InvalidConstraintException::class);
         $child->getValue('foobar', [15, 25, 36]);
     }
+
+    public function testIsCheckingIfIsIterable()
+    {
+        $typeHandler = $this->prophesize(TypeHandler::class);
+        $typeHandler->getType('int[]')->willReturn(new ScalarCollectionNode());
+
+
+        $base = new ScalarCollectionNode();
+        $base->setTypeHandler($typeHandler->reveal());
+        $child = $base->add('foobar', 'int[]');
+        $child->setType('int');
+
+        $this->expectException(InvalidConstraintException::class);
+        $this->expectExceptionMessage('Value does not match type: array');
+        $child->getValue('foobar', 'foobar');
+    }
 }
