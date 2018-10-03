@@ -61,7 +61,6 @@ class ScalarCollectionNodeTest extends TestCase
         $typeHandler = $this->prophesize(TypeHandler::class);
         $typeHandler->getType('int[]')->willReturn(new ScalarCollectionNode());
 
-
         $base = new ScalarCollectionNode();
         $base->setTypeHandler($typeHandler->reveal());
         $child = $base->add('foobar', 'int[]');
