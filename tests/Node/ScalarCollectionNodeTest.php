@@ -68,7 +68,6 @@ class ScalarCollectionNodeTest extends TestCase
         $child->setType('int');
 
         $this->expectException(InvalidConstraintException::class);
-        $this->expectExceptionMessage('Value does not match type: array');
         $child->getValue('foobar', 'foobar');
     }
 }

@@ -11,7 +11,7 @@ class ScalarCollectionNode extends BaseNode
 {
     public function __construct()
     {
-        $this->addConstraint(new Type('iterable', 'Value does not match type: array'));
+        $this->addConstraint(new Type('array'));
     }
 
     public function getValue(string $field, $value)
