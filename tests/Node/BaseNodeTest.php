@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class BaseNodeTest extends TestCase
 {
-    public function testIsAddingChildNode()
+    public function testIsAddingChildNode(): void
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
         $typeHandler->getType('string')->willReturn(new BaseNode());
@@ -26,7 +26,7 @@ class BaseNodeTest extends TestCase
         $this->assertCount(1, $base->getChildren());
     }
 
-    public function testIsAddingRequiredChildNode()
+    public function testIsAddingRequiredChildNode(): void
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
         $typeHandler->getType('string')->willReturn(new BaseNode());
@@ -40,7 +40,7 @@ class BaseNodeTest extends TestCase
         $this->assertCount(1, $base->getChildren());
     }
 
-    public function testIsNotOverridingNodeConstraints()
+    public function testIsNotOverridingNodeConstraints(): void
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
         $typeHandler->getType('string')->willReturn(new class() extends StringNode {
@@ -57,7 +57,7 @@ class BaseNodeTest extends TestCase
         $this->assertCount(2, $child->getConstraints());
     }
 
-    public function testIsRemovingChildNode()
+    public function testIsRemovingChildNode(): void
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
         $typeHandler->getType('string')->willReturn(new BaseNode());
@@ -71,7 +71,7 @@ class BaseNodeTest extends TestCase
         $this->assertCount(0, $base->getChildren());
     }
 
-    public function testIsDetectingChildsNode()
+    public function testIsDetectingChildsNode(): void
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
         $typeHandler->getType('string')->willReturn(new BaseNode());
@@ -83,7 +83,7 @@ class BaseNodeTest extends TestCase
         $this->assertTrue($base->hasChildren());
     }
 
-    public function testIsGettingValue()
+    public function testIsGettingValue(): void
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
         $typeHandler->getType('string')->willReturn(new BaseNode());
@@ -94,7 +94,7 @@ class BaseNodeTest extends TestCase
         $this->assertEquals('foobar', $child->getValue('foobar', 'foobar'));
     }
 
-    public function testIsCheckingConstraintsOnValue()
+    public function testIsCheckingConstraintsOnValue(): void
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
         $typeHandler->getType('string')->willReturn(new BaseNode());
@@ -107,7 +107,7 @@ class BaseNodeTest extends TestCase
         $child->getValue('foobar', 'foobar');
     }
 
-    public function testAllowingNullValuesIfConstraintsWouldOtherwiseReject()
+    public function testAllowingNullValuesIfConstraintsWouldOtherwiseReject(): void
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
         $typeHandler->getType('string')->willReturn(new BaseNode());
@@ -119,7 +119,7 @@ class BaseNodeTest extends TestCase
         $this->assertNull($child->getValue('foobar', null));
     }
 
-    public function testIsGettingTransformedValue()
+    public function testIsGettingTransformedValue(): void
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
         $typeHandler->getType('string')->willReturn(new BaseNode());

@@ -64,42 +64,42 @@ class BaseNode
      */
     protected $allowNull = false;
 
-    public function setConstraints(array $constraints)
+    public function setConstraints(array $constraints): void
     {
         $this->constraints = $constraints;
     }
 
-    public function addConstraint(ConstraintInterface $constraint)
+    public function addConstraint(ConstraintInterface $constraint): void
     {
         $this->constraints[] = $constraint;
     }
 
-    public function addConstraints(array $constraints)
+    public function addConstraints(array $constraints): void
     {
         $this->constraints = array_merge($this->constraints, $constraints);
     }
 
-    public function setTransformer(TransformerInterface $transformer)
+    public function setTransformer(TransformerInterface $transformer): void
     {
         $this->transformer = $transformer;
     }
 
-    public function setInstantiator(InstantiatorInterface $instantiator)
+    public function setInstantiator(InstantiatorInterface $instantiator): void
     {
         $this->instantiator = $instantiator;
     }
 
-    public function setTypeHandler(TypeHandler $typeHandler)
+    public function setTypeHandler(TypeHandler $typeHandler): void
     {
         $this->typeHandler = $typeHandler;
     }
 
-    public function setType(string $type)
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
 
-    public function setTypeAlias(string $typeAlias)
+    public function setTypeAlias(string $typeAlias): void
     {
         $this->typeAlias = $typeAlias;
     }
@@ -109,17 +109,17 @@ class BaseNode
         return $this->typeAlias;
     }
 
-    public function setRequired(bool $required)
+    public function setRequired(bool $required): void
     {
         $this->required = $required;
     }
 
-    public function setDefault($default)
+    public function setDefault($default): void
     {
         $this->default = $default;
     }
 
-    public function setAllowNull(bool $allowNull)
+    public function setAllowNull(bool $allowNull): void
     {
         $this->allowNull = $allowNull;
     }
@@ -176,7 +176,7 @@ class BaseNode
         return $child;
     }
 
-    public function remove(string $key)
+    public function remove(string $key): void
     {
         unset($this->children[$key]);
     }
@@ -250,7 +250,7 @@ class BaseNode
         return $result;
     }
 
-    protected function checkConstraints(string $field, $value)
+    protected function checkConstraints(string $field, $value): void
     {
         foreach ($this->constraints as $constraint) {
             if (!$constraint->validate($value)) {

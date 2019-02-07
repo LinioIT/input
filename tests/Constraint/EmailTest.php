@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class EmailTest extends TestCase
 {
-    public function testIsCheckingInvalidData()
+    public function testIsCheckingInvalidData(): void
     {
         $constraint = new Email();
         $this->assertFalse($constraint->validate('foobar@bazcom'));
@@ -16,7 +16,7 @@ class EmailTest extends TestCase
         $this->assertFalse($constraint->validate('fooz@bar'));
     }
 
-    public function testIsCheckingValidData()
+    public function testIsCheckingValidData(): void
     {
         $constraint = new Email();
         $this->assertTrue($constraint->validate('foo@bar.com'));
@@ -24,14 +24,14 @@ class EmailTest extends TestCase
         $this->assertTrue($constraint->validate('foo@bar.pe'));
     }
 
-    public function testIsGettingErrorMessage()
+    public function testIsGettingErrorMessage(): void
     {
         $constraint = new Email();
         $this->assertFalse($constraint->validate('foobar.com'));
         $this->assertEquals('[field] Invalid email format', $constraint->getErrorMessage('field'));
     }
 
-    public function testErrorMessageIsCustomizable()
+    public function testErrorMessageIsCustomizable(): void
     {
         $constraint = new Email('CUSTOM!');
         $this->assertSame('[field] CUSTOM!', $constraint->getErrorMessage('field'));

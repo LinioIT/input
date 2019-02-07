@@ -11,9 +11,8 @@ class SchemaBuilder
     public function build(InputHandler $inputHandler): array
     {
         $inputHandler->define();
-        $schema = $this->walk($inputHandler->getRoot());
 
-        return $schema;
+        return $this->walk($inputHandler->getRoot());
     }
 
     protected function walk(BaseNode $node): array

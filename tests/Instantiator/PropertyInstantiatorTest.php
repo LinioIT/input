@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class PropertyInstantiatorTest extends TestCase
 {
-    public function testIsCreatingInstances()
+    public function testIsCreatingInstances(): void
     {
         $instantiator = new PropertyInstantiator();
         $instance = $instantiator->instantiate(TestUser::class, ['is_active' => true]);

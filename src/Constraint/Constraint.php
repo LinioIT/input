@@ -16,7 +16,7 @@ abstract class Constraint implements ConstraintInterface
         return sprintf('[%s] %s', $field, $this->errorMessage);
     }
 
-    public function setErrorMessage(string $errorMessage)
+    public function setErrorMessage(string $errorMessage): void
     {
         $this->errorMessage = $errorMessage;
     }

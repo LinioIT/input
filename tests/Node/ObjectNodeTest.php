@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class ObjectNodeTest extends TestCase
 {
-    public function testIsGettingValue()
+    public function testIsGettingValue(): void
     {
         $expectedInput = ['timestamp' => 1389312000];
         $expectedObj = new \DateTime('@1389312000');
@@ -33,7 +33,7 @@ class ObjectNodeTest extends TestCase
         $this->assertEquals($expectedObj, $child->getValue('foobar', $expectedInput));
     }
 
-    public function testIsCheckingConstraintsOnValue()
+    public function testIsCheckingConstraintsOnValue(): void
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
         $typeHandler->getType('DateTime')->willReturn(new ObjectNode());

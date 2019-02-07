@@ -7,7 +7,6 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         syntaxCheck="true"
          stopOnFailure="false"
          bootstrap="./vendor/autoload.php">
     <testsuites>
@@ -24,8 +23,5 @@
                 <file>src/Input/InputTrait.php</file>
             </exclude>
         </whitelist>
-        <blacklist>
-            <directory>./vendor</directory>
-        </blacklist>
     </filter>
 </phpunit>

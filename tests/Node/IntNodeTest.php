@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class IntNodeTest extends TestCase
 {
-    public function testIsReturningTrueForDefaultValueZero()
+    public function testIsReturningTrueForDefaultValueZero(): void
     {
         $node = new IntNode();
         $node->setDefault(0);

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class SchemaTestInputHandler extends InputHandler
 {
-    public function define()
+    public function define(): void
     {
         $this->add('title', 'string');
         $this->add('size', 'int');
@@ -33,7 +33,7 @@ class SchemaTestInputHandler extends InputHandler
 
 class SchemaBuilderTest extends TestCase
 {
-    public function testIsBuildingSchema()
+    public function testIsBuildingSchema(): void
     {
         $expectedSchema = [
             'title' => [

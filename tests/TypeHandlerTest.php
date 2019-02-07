@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class TypeHandlerTest extends TestCase
 {
-    public function testIsAddingTypes()
+    public function testIsAddingTypes(): void
     {
         $typeHandler = new TypeHandler();
         $typeHandler->addType('foobar', BaseNode::class);
@@ -21,14 +21,14 @@ class TypeHandlerTest extends TestCase
         $this->assertInstanceOf(BaseNode::class, $type);
     }
 
-    public function testIsCreatingScalarCollections()
+    public function testIsCreatingScalarCollections(): void
     {
         $typeHandler = new TypeHandler();
         $type = $typeHandler->getType('int[]');
         $this->assertInstanceOf(ScalarCollectionNode::class, $type);
     }
 
-    public function testIsCreatingCollections()
+    public function testIsCreatingCollections(): void
     {
         $typeHandler = new TypeHandler();
         $type = $typeHandler->getType('DateTime[]');
@@ -46,14 +46,14 @@ class TypeHandlerTest extends TestCase
     /**
      * @dataProvider objectProvider
      */
-    public function testIsCreatingObjects($className)
+    public function testIsCreatingObjects($className): void
     {
         $typeHandler = new TypeHandler();
         $type = $typeHandler->getType($className);
         $this->assertInstanceOf(ObjectNode::class, $type);
     }
 
-    public function testIsDetectingConflictWithCaseInsensitive()
+    public function testIsDetectingConflictWithCaseInsensitive(): void
     {
         $typeHandler = new TypeHandler();
         $type = $typeHandler->getType('datetime');

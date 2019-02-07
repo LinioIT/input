@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class StringSizeTest extends TestCase
 {
-    public function testIsCheckingInvalidData()
+    public function testIsCheckingInvalidData(): void
     {
         $constraint1 = new StringSize(3);
         $this->assertFalse($constraint1->validate('ab'));
@@ -29,7 +29,7 @@ class StringSizeTest extends TestCase
         $this->assertFalse($constraint2->validate($obj));
     }
 
-    public function testIsCheckingValidData()
+    public function testIsCheckingValidData(): void
     {
         $constraint1 = new StringSize(3);
         $this->assertTrue($constraint1->validate('abc'));
@@ -41,7 +41,7 @@ class StringSizeTest extends TestCase
         $this->assertTrue($constraint2->validate('abce'));
     }
 
-    public function testIsGettingErrorMessage()
+    public function testIsGettingErrorMessage(): void
     {
         $constraint = new StringSize(3);
         $this->assertFalse($constraint->validate('ab'));
@@ -52,7 +52,7 @@ class StringSizeTest extends TestCase
         $this->assertEquals('[field] Content out of min/max limit sizes [3, 5]', $constraint->getErrorMessage('field'));
     }
 
-    public function testErrorMessageIsCustomizable()
+    public function testErrorMessageIsCustomizable(): void
     {
         $constraint = new StringSize(1, 2, 'CUSTOM!');
         $this->assertSame('[field] CUSTOM!', $constraint->getErrorMessage('field'));

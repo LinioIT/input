@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class RangeTest extends TestCase
 {
-    public function testIsCheckingInvalidData()
+    public function testIsCheckingInvalidData(): void
     {
         $constraint = new Range(50, 100);
         $this->assertFalse($constraint->validate(120));
@@ -21,21 +21,21 @@ class RangeTest extends TestCase
         $this->assertFalse($constraint->validate($obj));
     }
 
-    public function testIsCheckingValidData()
+    public function testIsCheckingValidData(): void
     {
         $constraint = new Range(50, 100);
         $this->assertTrue($constraint->validate(50));
         $this->assertTrue($constraint->validate(85));
     }
 
-    public function testIsGettingErrorMessage()
+    public function testIsGettingErrorMessage(): void
     {
         $constraint = new Range(50, 100);
         $this->assertFalse($constraint->validate(14));
         $this->assertEquals('[field] Value is not between 50 and 100', $constraint->getErrorMessage('field'));
     }
 
-    public function testErrorMessageIsCustomizable()
+    public function testErrorMessageIsCustomizable(): void
     {
         $constraint = new Range(50, 100, 'CUSTOM!');
         $this->assertSame('[field] CUSTOM!', $constraint->getErrorMessage('field'));

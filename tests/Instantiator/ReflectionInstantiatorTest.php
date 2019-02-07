@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class ReflectionInstantiatorTest extends TestCase
 {
-    public function testIsCreatingInstances()
+    public function testIsCreatingInstances(): void
     {
         $instantiator = new ReflectionInstantiator();
         $instance = $instantiator->instantiate(TestUser::class, ['name' => 'foobar', 'age' => 20, 'is_active' => true]);

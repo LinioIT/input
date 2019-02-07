@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class DateTimeTransformerTest extends TestCase
 {
-    public function testIsTransformingIntoDateTime()
+    public function testIsTransformingIntoDateTime(): void
     {
         $transformer = new DateTimeTransformer();
         $transformed = $transformer->transform('2014-01-01 00:00:01');
@@ -16,14 +16,14 @@ class DateTimeTransformerTest extends TestCase
         $this->assertEquals(new \DateTime('2014-01-01 00:00:01'), $transformed);
     }
 
-    public function testIsReturningNullWithInvalidDate()
+    public function testIsReturningNullWithInvalidDate(): void
     {
         $transformer = new DateTimeTransformer();
         $transformed = $transformer->transform('2014-01x01');
         $this->assertNull($transformed);
     }
 
-    public function testIsAllowingNullableValue()
+    public function testIsAllowingNullableValue(): void
     {
         $transformer = new DateTimeTransformer();
         $transformed = $transformer->transform(null);

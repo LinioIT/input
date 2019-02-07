@@ -11,7 +11,7 @@ use Ramsey\Uuid\UuidInterface;
 
 class UuidTransformerTest extends TestCase
 {
-    public function testItDoesTransformStringIntoUuid()
+    public function testItDoesTransformStringIntoUuid(): void
     {
         $transformer = new UuidTransformer();
         $transformed = $transformer->transform('d1d6228d-604c-4a8a-9396-42e6c3b17754');
@@ -19,7 +19,7 @@ class UuidTransformerTest extends TestCase
         $this->assertEquals(Uuid::fromString('d1d6228d-604c-4a8a-9396-42e6c3b17754'), $transformed);
     }
 
-    public function testItDoesThrowExceptionBecauseOfInvalidString()
+    public function testItDoesThrowExceptionBecauseOfInvalidString(): void
     {
         $transformer = new UuidTransformer();
 

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class NotNullTest extends TestCase
 {
-    public function testIsCheckingInvalidData()
+    public function testIsCheckingInvalidData(): void
     {
         $constraint = new NotNull();
         $this->assertFalse($constraint->validate(null));
@@ -17,7 +17,7 @@ class NotNullTest extends TestCase
         $this->assertFalse($constraint->validate('     '));
     }
 
-    public function testIsCheckingValidData()
+    public function testIsCheckingValidData(): void
     {
         $constraint = new NotNull();
         $this->assertTrue($constraint->validate(' test '));
@@ -29,14 +29,14 @@ class NotNullTest extends TestCase
         $this->assertTrue($constraint->validate($obj));
     }
 
-    public function testIsGettingErrorMessage()
+    public function testIsGettingErrorMessage(): void
     {
         $constraint = new NotNull();
         $this->assertFalse($constraint->validate(null));
         $this->assertEquals('[field] Unexpected empty content', $constraint->getErrorMessage('field'));
     }
 
-    public function testErrorMessageIsCustomizable()
+    public function testErrorMessageIsCustomizable(): void
     {
         $constraint = new NotNull('CUSTOM!');
         $this->assertSame('[field] CUSTOM!', $constraint->getErrorMessage('field'));

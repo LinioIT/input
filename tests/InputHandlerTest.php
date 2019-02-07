@@ -23,7 +23,7 @@ class TestUser
         return $this->name;
     }
 
-    public function setName($name)
+    public function setName($name): void
     {
         $this->name = $name;
     }
@@ -33,7 +33,7 @@ class TestUser
         return $this->age;
     }
 
-    public function setAge($age)
+    public function setAge($age): void
     {
         $this->age = $age;
     }
@@ -43,17 +43,17 @@ class TestUser
         return $this->related;
     }
 
-    public function setRelated(TestUser $related)
+    public function setRelated(TestUser $related): void
     {
         $this->related = $related;
     }
 
-    public function setIsActive(bool $isActive)
+    public function setIsActive(bool $isActive): void
     {
         $this->isActive = $isActive;
     }
 
-    public function setBirthday(\DateTime $birthday)
+    public function setBirthday(\DateTime $birthday): void
     {
         $this->birthday = $birthday;
     }
@@ -61,7 +61,7 @@ class TestUser
 
 class TestInputHandler extends InputHandler
 {
-    public function define()
+    public function define(): void
     {
         $this->add('title', 'string');
         $this->add('size', 'int');
@@ -91,7 +91,7 @@ class TestInputHandler extends InputHandler
 
 class TestRecursiveInputHandler extends InputHandler
 {
-    public function define()
+    public function define(): void
     {
         $this->add('title', 'string');
         $this->add('size', 'int');
@@ -101,7 +101,7 @@ class TestRecursiveInputHandler extends InputHandler
 
 class InputHandlerTest extends TestCase
 {
-    public function testIsHandlingBasicInput()
+    public function testIsHandlingBasicInput(): void
     {
         $input = [
             'title' => 'Foobar',
@@ -189,7 +189,7 @@ class InputHandlerTest extends TestCase
         $this->assertEquals([$fanA, $fanB, $fanC], $inputHandler->getData('fans'));
     }
 
-    public function testIsHandlingErrors()
+    public function testIsHandlingErrors(): void
     {
         $input = [
             'size' => '35',
@@ -237,7 +237,7 @@ class InputHandlerTest extends TestCase
         $this->assertEquals('Missing required field: title', $inputHandler->getErrorsAsString());
     }
 
-    public function testIsHandlingTypeJuggling()
+    public function testIsHandlingTypeJuggling(): void
     {
         $input = [
             'title' => '',
@@ -288,7 +288,7 @@ class InputHandlerTest extends TestCase
         $this->assertFalse($inputHandler->getData('author')->isActive);
     }
 
-    public function testIsHandlingInputValidationWithInstantiator()
+    public function testIsHandlingInputValidationWithInstantiator(): void
     {
         $input = [
             'title' => 'Foobar',
@@ -346,7 +346,7 @@ class InputHandlerTest extends TestCase
         ], $inputHandler->getErrors());
     }
 
-    public function testIsHandlingInputWithRecursiveHandler()
+    public function testIsHandlingInputWithRecursiveHandler(): void
     {
         $input = [
             'title' => 'Barfoo',
@@ -442,7 +442,7 @@ class InputHandlerTest extends TestCase
         $this->assertEquals([$fanA, $fanB, $fanC], $child->fans);
     }
 
-    public function testOverride()
+    public function testOverride(): void
     {
         $input = [
             'price' => 'igor',
@@ -472,10 +472,8 @@ class InputHandlerTest extends TestCase
 
     /**
      * @dataProvider invalidDateProvider
-     *
-     * @param mixed $datetime
      */
-    public function testDatetimeInvalidDatetimeInput($datetime)
+    public function testDatetimeInvalidDatetimeInput($datetime): void
     {
         $input = [
             'date' => $datetime,
@@ -489,7 +487,7 @@ class InputHandlerTest extends TestCase
 
 class TestConstraintOverrideType extends InputHandler
 {
-    public function define()
+    public function define(): void
     {
         $this->add('price', 'int', [
             'required' => true,
@@ -500,7 +498,7 @@ class TestConstraintOverrideType extends InputHandler
 
 class TestDatetimeNotValidatingDate extends InputHandler
 {
-    public function define()
+    public function define(): void
     {
         $this->add('date', 'datetime', [
             'required' => true,

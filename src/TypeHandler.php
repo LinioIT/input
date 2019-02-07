@@ -46,7 +46,7 @@ class TypeHandler
         $this->defaultInstantiator = new SetInstantiator();
     }
 
-    public function addType(string $name, string $class)
+    public function addType(string $name, string $class): void
     {
         $this->types[$name] = $class;
     }
