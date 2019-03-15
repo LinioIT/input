@@ -1,0 +1,26 @@
+version: 2
+mergeable:
+  - when: pull_request.*
+    validate:
+      - do: label
+        must_exclude:
+          regex: do-not-merge/blocked
+      - do: title
+        must_exclude:
+          regex: /\[?wip\]?:?/i
+      - do: label
+        must_exclude:
+          regex: do-not-merge/work-in-progress
+    pass:
+      - do: checks
+        status: success
+        payload:
+          title: The PR is ready to be merged.
+          summary: The pull request is ready to be merged.
+    fail:
+      - do: checks
+        status: failure
+        payload:
+          title: The PR is not ready to be merged.
+          summary: The pull request is not ready to be merged.
+
