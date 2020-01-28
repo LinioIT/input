@@ -99,6 +99,28 @@ class TestRecursiveInputHandler extends InputHandler
     }
 }
 
+class TestNullableInputHandler extends InputHandler
+{
+    public function define(): void
+    {
+        $this->add('name', 'string');
+        $this->add('address', 'string', ['allow_null' => true]);
+    }
+}
+
+class TestNullableRecursiveInputHandler extends InputHandler
+{
+    public function define(): void
+    {
+        $this->add('type', 'string');
+        $this->add('data', \stdClass::class, [
+            'handler' => new TestNullableInputHandler(),
+            'instantiator' => new PropertyInstantiator(),
+            'allow_null' => true
+        ]);
+    }
+}
+
 class InputHandlerTest extends TestCase
 {
     public function testIsHandlingBasicInput(): void
@@ -482,6 +504,40 @@ class InputHandlerTest extends TestCase
         $inputHandler = new TestDatetimeNotValidatingDate();
         $inputHandler->bind($input);
         $this->assertFalse($inputHandler->isValid());
+    }
+
+    public function testIsHandlingInputWithNullValues(): void
+    {
+        $input = [
+            'type' => 'buyers',
+            'data' => [
+                'name' => 'John Doe',
+                'address' => null
+            ]
+        ];
+
+        $inputHandler = new TestNullableRecursiveInputHandler();
+        $inputHandler->bind($input);
+
+        $this->assertTrue($inputHandler->isValid());
+
+        $data = $inputHandler->getData('data');
+
+        $this->assertNull($data->address);
+
+        $input = [
+            'type' => 'buyers',
+            'data' => null
+        ];
+
+        $inputHandler = new TestNullableRecursiveInputHandler();
+        $inputHandler->bind($input);
+
+        $this->assertTrue($inputHandler->isValid());
+
+        $data = $inputHandler->getData('data');
+
+        $this->assertNull($data);
     }
 }
 
