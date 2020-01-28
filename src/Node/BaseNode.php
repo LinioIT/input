@@ -229,11 +229,11 @@ class BaseNode
             return $input;
         }
 
-        $result = [];
-
         if (!$this->hasChildren()) {
             return $input;
         }
+
+        $result = [];
 
         foreach ($this->getChildren() as $field => $config) {
             if (!array_key_exists($field, $input)) {
