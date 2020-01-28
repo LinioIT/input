@@ -116,7 +116,7 @@ class TestNullableRecursiveInputHandler extends InputHandler
         $this->add('data', \stdClass::class, [
             'handler' => new TestNullableInputHandler(),
             'instantiator' => new PropertyInstantiator(),
-            'allow_null' => true
+            'allow_null' => true,
         ]);
     }
 }
@@ -512,8 +512,8 @@ class InputHandlerTest extends TestCase
             'type' => 'buyers',
             'data' => [
                 'name' => 'John Doe',
-                'address' => null
-            ]
+                'address' => null,
+            ],
         ];
 
         $inputHandler = new TestNullableRecursiveInputHandler();
@@ -527,7 +527,7 @@ class InputHandlerTest extends TestCase
 
         $input = [
             'type' => 'buyers',
-            'data' => null
+            'data' => null,
         ];
 
         $inputHandler = new TestNullableRecursiveInputHandler();
