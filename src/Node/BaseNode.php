@@ -225,6 +225,10 @@ class BaseNode
 
     public function walk($input)
     {
+        if (!is_array($input)) {
+            return $input;
+        }
+
         $result = [];
 
         if (!$this->hasChildren()) {
