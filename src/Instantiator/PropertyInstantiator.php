@@ -8,8 +8,12 @@ use Doctrine\Common\Inflector\Inflector;
 
 class PropertyInstantiator implements InstantiatorInterface
 {
-    public function instantiate(string $class, array $data)
+    public function instantiate(string $class, ?array $data)
     {
+        if ($data === null) {
+            return null;
+        }
+
         $object = new $class();
 
         foreach ($data as $key => $value) {

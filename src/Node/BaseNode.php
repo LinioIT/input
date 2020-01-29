@@ -225,11 +225,15 @@ class BaseNode
 
     public function walk($input)
     {
-        $result = [];
+        if (!is_array($input)) {
+            return $input;
+        }
 
         if (!$this->hasChildren()) {
             return $input;
         }
+
+        $result = [];
 
         foreach ($this->getChildren() as $field => $config) {
             if (!array_key_exists($field, $input)) {
