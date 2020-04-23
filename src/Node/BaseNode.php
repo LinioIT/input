@@ -44,9 +44,6 @@ class BaseNode
      */
     protected $required = true;
 
-    /**
-     * @var mixed
-     */
     protected $default;
 
     /**
