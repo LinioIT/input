@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input;
 
+use Linio\Component\Input\Constraint\Email;
+use Linio\Component\Input\Constraint\Enum;
 use Linio\Component\Input\Constraint\Range;
+use Linio\Component\Input\Constraint\StringSize;
 use Linio\Component\Input\Instantiator\InstantiatorInterface;
 use Linio\Component\Input\Instantiator\PropertyInstantiator;
 use PHPUnit\Framework\TestCase;
@@ -118,6 +121,31 @@ class TestNullableRecursiveInputHandler extends InputHandler
             'instantiator' => new PropertyInstantiator(),
             'allow_null' => true,
         ]);
+    }
+}
+
+class TestInputHandlerCascade extends InputHandler
+{
+    public function define(): void
+    {
+        $this->add('name', 'string')
+            ->setRequired(true)
+            ->addConstraint(new StringSize(1, 80));
+
+        $this->add('age', 'int')
+            ->setRequired(true)
+            ->addConstraint(new Range(1, 99));
+
+        $this->add('gender', 'string')
+            ->setRequired(true)
+            ->addConstraint(new Enum(['male', 'female', 'other']));
+
+        $this->add('birthday', 'datetime')
+            ->setRequired(false);
+
+        $this->add('email', 'string')
+            ->setRequired(false)
+            ->addConstraint(new Email());
     }
 }
 
@@ -538,6 +566,21 @@ class InputHandlerTest extends TestCase
         $data = $inputHandler->getData('data');
 
         $this->assertNull($data);
+    }
+
+    public function testInputHandlerOnCascade(): void
+    {
+        $input = [
+            'name' => 'A',
+            'age' => 18,
+            'gender' => 'male',
+            'birthday' => '2000-01-01',
+        ];
+
+        $inputHandler = new TestInputHandlerCascade();
+        $inputHandler->bind($input);
+
+        $this->assertTrue($inputHandler->isValid());
     }
 }
 

@@ -61,44 +61,60 @@ class BaseNode
      */
     protected $allowNull = false;
 
-    public function setConstraints(array $constraints): void
+    public function setConstraints(array $constraints): self
     {
         $this->constraints = $constraints;
+
+        return $this;
     }
 
-    public function addConstraint(ConstraintInterface $constraint): void
+    public function addConstraint(ConstraintInterface $constraint): self
     {
         $this->constraints[] = $constraint;
+
+        return $this;
     }
 
-    public function addConstraints(array $constraints): void
+    public function addConstraints(array $constraints): self
     {
         $this->constraints = array_merge($this->constraints, $constraints);
+
+        return $this;
     }
 
-    public function setTransformer(TransformerInterface $transformer): void
+    public function setTransformer(TransformerInterface $transformer): self
     {
         $this->transformer = $transformer;
+
+        return $this;
     }
 
-    public function setInstantiator(InstantiatorInterface $instantiator): void
+    public function setInstantiator(InstantiatorInterface $instantiator): self
     {
         $this->instantiator = $instantiator;
+
+        return $this;
     }
 
-    public function setTypeHandler(TypeHandler $typeHandler): void
+    public function setTypeHandler(TypeHandler $typeHandler): self
     {
         $this->typeHandler = $typeHandler;
+
+        return $this;
     }
 
-    public function setType(string $type): void
+    public function setType(string $type): self
     {
         $this->type = $type;
+
+        return $this;
     }
 
-    public function setTypeAlias(string $typeAlias): void
+    public function setTypeAlias(string $typeAlias): self
     {
         $this->typeAlias = $typeAlias;
+
+        return $this;
     }
 
     public function getTypeAlias(): string
@@ -106,19 +122,25 @@ class BaseNode
         return $this->typeAlias;
     }
 
-    public function setRequired(bool $required): void
+    public function setRequired(bool $required): self
     {
         $this->required = $required;
+
+        return $this;
     }
 
-    public function setDefault($default): void
+    public function setDefault($default): self
     {
         $this->default = $default;
+
+        return $this;
     }
 
-    public function setAllowNull(bool $allowNull): void
+    public function setAllowNull(bool $allowNull): self
     {
         $this->allowNull = $allowNull;
+
+        return $this;
     }
 
     public function getDefault()
