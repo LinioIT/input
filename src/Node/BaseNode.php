@@ -153,17 +153,16 @@ class BaseNode
         return (bool) $this->default;
     }
 
-    public function add(string $key, string $type, array $options = []): BaseNode
+    public function add(string $key, string $type, array $options = [], InputHandler $handler = null): BaseNode
     {
         $child = $this->typeHandler->getType($type);
 
-        if (isset($options['handler'])) {
-            /** @var InputHandler $handler */
-            $handler = $options['handler'];
-            $handler->setRootType($type);
-            $handler->define();
+        if (isset($handler)) {
+            $child = $child->setHandler($handler, $type);
+        }
 
-            $child = $handler->getRoot();
+        if (isset($options['handler']) && !isset($handler)) {
+            $child = $child->setHandler($options['handler'], $type);
         }
 
         if (isset($options['required'])) {
@@ -280,5 +279,13 @@ class BaseNode
                 throw new InvalidConstraintException($constraint->getErrorMessage($field));
             }
         }
+    }
+
+    private function setHandler(InputHandler $handler, string $type): self
+    {
+        $handler->setRootType($type);
+        $handler->define();
+
+        return $handler->getRoot();
     }
 }

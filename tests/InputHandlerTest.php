@@ -102,6 +102,16 @@ class TestRecursiveInputHandler extends InputHandler
     }
 }
 
+class TestRecursiveInputHandlerExplicit extends InputHandler
+{
+    public function define(): void
+    {
+        $this->add('title', 'string');
+        $this->add('size', 'int');
+        $this->add('child', \stdClass::class, ['instantiator' => new PropertyInstantiator()], new TestInputHandler());
+    }
+}
+
 class TestNullableInputHandler extends InputHandler
 {
     public function define(): void
@@ -445,6 +455,102 @@ class InputHandlerTest extends TestCase
         ];
 
         $inputHandler = new TestRecursiveInputHandler();
+        $inputHandler->bind($input);
+        $this->assertTrue($inputHandler->isValid());
+
+        // Basic fields
+        $this->assertEquals('Barfoo', $inputHandler->getData('title'));
+        $this->assertEquals(20, $inputHandler->getData('size'));
+        /** @var \stdClass $child */
+        $child = $inputHandler->getData('child');
+
+        // Scalar collection
+        $this->assertEquals([11, 22, 33], $child->dimensions);
+
+        // Transformer
+        $this->assertEquals(new \DateTime('2015-01-01 22:50'), $child->date);
+
+        // Mixed array
+        $this->assertEquals(['foo' => 'bar'], $child->metadata);
+
+        // Typed array
+        $this->assertEquals(['title' => 'Barfoo', 'size' => 15, 'date' => new \DateTime('2015-01-01 22:50')], $child->simple);
+
+        // Object and nested object
+        $related = new TestUser();
+        $related->setName('Barfoo');
+        $related->setAge(28);
+        $author = new TestUser();
+        $author->setName('Barfoo');
+        $author->setAge(28);
+        $author->setRelated($related);
+        $this->assertEquals($author, $child->author);
+
+        // Object collection
+        $fanA = new TestUser();
+        $fanA->setName('A');
+        $fanA->setAge(18);
+        $fanA->setBirthday(new \DateTime('2000-01-01'));
+        $fanB = new TestUser();
+        $fanB->setName('B');
+        $fanB->setAge(28);
+        $fanB->setBirthday(new \DateTime('2000-01-02'));
+        $fanC = new TestUser();
+        $fanC->setName('C');
+        $fanC->setAge(38);
+        $fanC->setBirthday(new \DateTime('2000-01-03'));
+        $this->assertEquals([$fanA, $fanB, $fanC], $child->fans);
+    }
+
+    public function testIsHandlingInputWithRecursiveHandlerExplicit(): void
+    {
+        $input = [
+            'title' => 'Barfoo',
+            'size' => 20,
+            'child' => [
+                'title' => 'Foobar',
+                'size' => 35,
+                'dimensions' => [11, 22, 33],
+                'date' => '2015-01-01 22:50',
+                'metadata' => [
+                    'foo' => 'bar',
+                ],
+                'simple' => [
+                    'date' => '2015-01-01 22:50',
+                ],
+                'user' => [
+                    'name' => false,
+                    'age' => '28',
+                ],
+                'author' => [
+                    'name' => 'Barfoo',
+                    'age' => 28,
+                    'related' => [
+                        'name' => 'Barfoo',
+                        'age' => 28,
+                    ],
+                ],
+                'fans' => [
+                    [
+                        'name' => 'A',
+                        'age' => 18,
+                        'birthday' => '2000-01-01',
+                    ],
+                    [
+                        'name' => 'B',
+                        'age' => 28,
+                        'birthday' => '2000-01-02',
+                    ],
+                    [
+                        'name' => 'C',
+                        'age' => 38,
+                        'birthday' => '2000-01-03',
+                    ],
+                ],
+            ],
+        ];
+
+        $inputHandler = new TestRecursiveInputHandlerExplicit();
         $inputHandler->bind($input);
         $this->assertTrue($inputHandler->isValid());
 
