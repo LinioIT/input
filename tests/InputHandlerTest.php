@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input;
 
+use Linio\Component\Input\Constraint\Email;
+use Linio\Component\Input\Constraint\Enum;
 use Linio\Component\Input\Constraint\Range;
+use Linio\Component\Input\Constraint\StringSize;
 use Linio\Component\Input\Instantiator\InstantiatorInterface;
 use Linio\Component\Input\Instantiator\PropertyInstantiator;
 use PHPUnit\Framework\TestCase;
@@ -99,6 +102,16 @@ class TestRecursiveInputHandler extends InputHandler
     }
 }
 
+class TestRecursiveInputHandlerExplicit extends InputHandler
+{
+    public function define(): void
+    {
+        $this->add('title', 'string');
+        $this->add('size', 'int');
+        $this->add('child', \stdClass::class, ['instantiator' => new PropertyInstantiator()], new TestInputHandler());
+    }
+}
+
 class TestNullableInputHandler extends InputHandler
 {
     public function define(): void
@@ -118,6 +131,31 @@ class TestNullableRecursiveInputHandler extends InputHandler
             'instantiator' => new PropertyInstantiator(),
             'allow_null' => true,
         ]);
+    }
+}
+
+class TestInputHandlerCascade extends InputHandler
+{
+    public function define(): void
+    {
+        $this->add('name', 'string')
+            ->setRequired(true)
+            ->addConstraint(new StringSize(1, 80));
+
+        $this->add('age', 'int')
+            ->setRequired(true)
+            ->addConstraint(new Range(1, 99));
+
+        $this->add('gender', 'string')
+            ->setRequired(true)
+            ->addConstraint(new Enum(['male', 'female', 'other']));
+
+        $this->add('birthday', 'datetime')
+            ->setRequired(false);
+
+        $this->add('email', 'string')
+            ->setRequired(false)
+            ->addConstraint(new Email());
     }
 }
 
@@ -464,6 +502,102 @@ class InputHandlerTest extends TestCase
         $this->assertEquals([$fanA, $fanB, $fanC], $child->fans);
     }
 
+    public function testIsHandlingInputWithRecursiveHandlerExplicit(): void
+    {
+        $input = [
+            'title' => 'Barfoo',
+            'size' => 20,
+            'child' => [
+                'title' => 'Foobar',
+                'size' => 35,
+                'dimensions' => [11, 22, 33],
+                'date' => '2015-01-01 22:50',
+                'metadata' => [
+                    'foo' => 'bar',
+                ],
+                'simple' => [
+                    'date' => '2015-01-01 22:50',
+                ],
+                'user' => [
+                    'name' => false,
+                    'age' => '28',
+                ],
+                'author' => [
+                    'name' => 'Barfoo',
+                    'age' => 28,
+                    'related' => [
+                        'name' => 'Barfoo',
+                        'age' => 28,
+                    ],
+                ],
+                'fans' => [
+                    [
+                        'name' => 'A',
+                        'age' => 18,
+                        'birthday' => '2000-01-01',
+                    ],
+                    [
+                        'name' => 'B',
+                        'age' => 28,
+                        'birthday' => '2000-01-02',
+                    ],
+                    [
+                        'name' => 'C',
+                        'age' => 38,
+                        'birthday' => '2000-01-03',
+                    ],
+                ],
+            ],
+        ];
+
+        $inputHandler = new TestRecursiveInputHandlerExplicit();
+        $inputHandler->bind($input);
+        $this->assertTrue($inputHandler->isValid());
+
+        // Basic fields
+        $this->assertEquals('Barfoo', $inputHandler->getData('title'));
+        $this->assertEquals(20, $inputHandler->getData('size'));
+        /** @var \stdClass $child */
+        $child = $inputHandler->getData('child');
+
+        // Scalar collection
+        $this->assertEquals([11, 22, 33], $child->dimensions);
+
+        // Transformer
+        $this->assertEquals(new \DateTime('2015-01-01 22:50'), $child->date);
+
+        // Mixed array
+        $this->assertEquals(['foo' => 'bar'], $child->metadata);
+
+        // Typed array
+        $this->assertEquals(['title' => 'Barfoo', 'size' => 15, 'date' => new \DateTime('2015-01-01 22:50')], $child->simple);
+
+        // Object and nested object
+        $related = new TestUser();
+        $related->setName('Barfoo');
+        $related->setAge(28);
+        $author = new TestUser();
+        $author->setName('Barfoo');
+        $author->setAge(28);
+        $author->setRelated($related);
+        $this->assertEquals($author, $child->author);
+
+        // Object collection
+        $fanA = new TestUser();
+        $fanA->setName('A');
+        $fanA->setAge(18);
+        $fanA->setBirthday(new \DateTime('2000-01-01'));
+        $fanB = new TestUser();
+        $fanB->setName('B');
+        $fanB->setAge(28);
+        $fanB->setBirthday(new \DateTime('2000-01-02'));
+        $fanC = new TestUser();
+        $fanC->setName('C');
+        $fanC->setAge(38);
+        $fanC->setBirthday(new \DateTime('2000-01-03'));
+        $this->assertEquals([$fanA, $fanB, $fanC], $child->fans);
+    }
+
     public function testOverride(): void
     {
         $input = [
@@ -538,6 +672,21 @@ class InputHandlerTest extends TestCase
         $data = $inputHandler->getData('data');
 
         $this->assertNull($data);
+    }
+
+    public function testInputHandlerOnCascade(): void
+    {
+        $input = [
+            'name' => 'A',
+            'age' => 18,
+            'gender' => 'male',
+            'birthday' => '2000-01-01',
+        ];
+
+        $inputHandler = new TestInputHandlerCascade();
+        $inputHandler->bind($input);
+
+        $this->assertTrue($inputHandler->isValid());
     }
 }
 
