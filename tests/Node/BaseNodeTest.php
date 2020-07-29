@@ -130,7 +130,7 @@ class BaseNodeTest extends TestCase
         $this->assertEquals(new \DateTime('2014-01-01 00:00:00'), $child->getValue('foobar', '2014-01-01 00:00:00'));
     }
 
-    public function testNotRequiredWithConstraints()
+    public function testNotRequiredWithConstraints() : void
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
         $typeHandler->getType('string')->willReturn(new BaseNode());
