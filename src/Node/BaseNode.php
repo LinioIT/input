@@ -275,7 +275,7 @@ class BaseNode
     protected function checkConstraints(string $field, $value): void
     {
         foreach ($this->constraints as $constraint) {
-            if (!$constraint->validate($value)) {
+            if (!$constraint->validate($value) && ($this->isRequired() || !empty($value))) {
                 throw new InvalidConstraintException($constraint->getErrorMessage($field));
             }
         }

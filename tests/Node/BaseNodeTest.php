@@ -129,4 +129,19 @@ class BaseNodeTest extends TestCase
         $child = $base->add('foobar', 'string', ['transformer' => new DateTimeTransformer()]);
         $this->assertEquals(new \DateTime('2014-01-01 00:00:00'), $child->getValue('foobar', '2014-01-01 00:00:00'));
     }
+
+    public function testNotRequiredWithConstraints(): void
+    {
+        $typeHandler = $this->prophesize(TypeHandler::class);
+        $typeHandler->getType('string')->willReturn(new BaseNode());
+
+        $base = new BaseNode();
+        $base->setTypeHandler($typeHandler->reveal());
+        $child = $base->add('foobar', 'string')
+            ->setRequired(false)
+            ->addConstraint(new StringSize(1, 255));
+
+        $this->assertNull($child->getValue('foobar', null));
+        $this->assertEmpty($child->getValue('foobar', ''));
+    }
 }
