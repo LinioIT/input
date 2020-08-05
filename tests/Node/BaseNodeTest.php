@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Linio\Component\Input\Node;
 
 use Linio\Component\Input\Constraint\NotNull;
+use Linio\Component\Input\Constraint\Range;
 use Linio\Component\Input\Constraint\StringSize;
 use Linio\Component\Input\Exception\InvalidConstraintException;
 use Linio\Component\Input\Transformer\DateTimeTransformer;
@@ -142,6 +143,25 @@ class BaseNodeTest extends TestCase
             ->addConstraint(new StringSize(1, 255));
 
         $this->assertNull($child->getValue('foobar', null));
-        $this->assertEmpty($child->getValue('foobar', ''));
+    }
+
+    public function testNotRequiredWithContraintsAndIntegerField(): void
+    {
+        $typeHandler = $this->prophesize(TypeHandler::class);
+        $typeHandler->getType('integer')->willReturn(new BaseNode());
+
+        $base = new BaseNode();
+        $base->setTypeHandler($typeHandler->reveal());
+        $base->setTypeAlias('integer');
+        $child = $base->add('foobar', 'integer')
+            ->setTypeAlias('integer')
+            ->setRequired(false)
+            ->addConstraint(new Range(1, 255))
+            ->setType('integer');
+
+        $this->assertEmpty($child->getValue('foobar', null));
+
+        $this->expectException(InvalidConstraintException::class);
+        $child->getValue('foobar', 0);
     }
 }
