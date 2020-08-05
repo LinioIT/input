@@ -275,10 +275,15 @@ class BaseNode
     protected function checkConstraints(string $field, $value): void
     {
         foreach ($this->constraints as $constraint) {
-            if (!$constraint->validate($value) && ($this->isRequired() || !empty($value))) {
+            if (!$constraint->validate($value) && ($this->isRequired() || $this->checkIfFieldValueIsSpecified($value))) {
                 throw new InvalidConstraintException($constraint->getErrorMessage($field));
             }
         }
+    }
+
+    private function checkIfFieldValueIsSpecified($value): bool
+    {
+        return ($this->type === 'string' || $this->type === 'array' ? !empty($value) : !is_null($value));
     }
 
     private function setHandler(InputHandler $handler, string $type): self
