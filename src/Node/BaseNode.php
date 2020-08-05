@@ -283,7 +283,7 @@ class BaseNode
 
     private function checkIfFieldValueIsSpecified($value): bool
     {
-        return ($this->type === 'string' || $this->type === 'array' ? !empty($value) : !is_null($value));
+        return $this->type === 'string' || $this->type === 'array' ? !empty($value) : $value !== null;
     }
 
     private function setHandler(InputHandler $handler, string $type): self

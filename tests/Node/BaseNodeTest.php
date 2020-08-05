@@ -159,11 +159,9 @@ class BaseNodeTest extends TestCase
             ->addConstraint(new Range(1, 255))
             ->setType('integer');
 
-
         $this->assertEmpty($child->getValue('foobar', null));
 
         $this->expectException(InvalidConstraintException::class);
         $child->getValue('foobar', 0);
-
     }
 }
