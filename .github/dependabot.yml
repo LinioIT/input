@@ -1,0 +1,16 @@
+version: 2
+registries:
+  git-gitlab-com:
+    type: git
+    url: https://gitlab.com
+    username: geoffrey-linio
+    password: "${{secrets.GIT_GITLAB_COM_PASSWORD}}"
+
+updates:
+- package-ecosystem: composer
+  directory: "/"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 99
+  registries:
+  - git-gitlab-com
