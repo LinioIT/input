@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Instantiator;
 
-use Doctrine\Common\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 
 class SetInstantiator implements InstantiatorInterface
 {
     public function instantiate(string $class, array $data)
     {
+        $inflector = InflectorFactory::create()->build();
         $object = new $class();
 
         foreach ($data as $key => $value) {
-            $method = 'set' . Inflector::classify($key);
+            $method = 'set' . $inflector->classify($key);
             $object->$method($value);
         }
 
