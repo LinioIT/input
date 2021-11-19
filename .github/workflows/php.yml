@@ -34,13 +34,6 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
-  test:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-
     - name: Run linter
       run: vendor/bin/php-cs-fixer fix --dry-run -v
 
