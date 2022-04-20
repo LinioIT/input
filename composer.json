@@ -6,7 +6,7 @@
     "license": "BSD-3-Clause",
     "require": {
         "php": ">=7.2",
-        "ramsey/uuid": "^3.8",
+        "ramsey/uuid": "^4.0",
         "doctrine/inflector": "^2.0"
     },
     "require-dev": {
