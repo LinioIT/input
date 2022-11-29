@@ -1,0 +1,7 @@
+parameters:
+    level: 0 # start increasing the level
+    paths:
+        - src
+        - tests
+    tmpDir: data/cache/phpstan
+    reportUnmatchedIgnoredErrors: false
