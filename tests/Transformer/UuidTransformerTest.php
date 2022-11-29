@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Linio\Component\Input\Transformer;
 
 use Linio\Component\Input\Exception\TransformationException;
-use PHPUnit\Framework\TestCase;
+use Linio\Component\Input\TestCase;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 

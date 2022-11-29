@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Node;
 
-use PHPUnit\Framework\TestCase;
+use Linio\Component\Input\TestCase;
 
 class IntNodeTest extends TestCase
 {
