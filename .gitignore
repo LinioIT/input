@@ -5,6 +5,7 @@ composer.phar
 composer.lock
 phpunit.xml
 cache.properties
-.php_cs.cache
+.php-cs-fixer.cache
 .phpunit.result.cache
 .idea/
+/data/cache/*
