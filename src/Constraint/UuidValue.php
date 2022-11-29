@@ -6,5 +6,5 @@ namespace Linio\Component\Input\Constraint;
 
 class UuidValue extends GuidValue
 {
-    const ERROR_MESSAGE = 'Invalid UUID format';
+    public const ERROR_MESSAGE = 'Invalid UUID format';
 }

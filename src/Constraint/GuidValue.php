@@ -6,7 +6,7 @@ namespace Linio\Component\Input\Constraint;
 
 class GuidValue extends Constraint
 {
-    const ERROR_MESSAGE = 'Invalid GUID format';
+    public const ERROR_MESSAGE = 'Invalid GUID format';
 
     public function __construct(string $errorMessage = null)
     {
