@@ -5,13 +5,50 @@
     "type": "library",
     "license": "BSD-3-Clause",
     "require": {
-        "php": ">=7.2",
-        "ramsey/uuid": "^3.8|^4.0",
+        "php": "^8.1",
+        "ramsey/uuid": "^4.5",
         "doctrine/inflector": "^2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": ">=6.0",
-        "friendsofphp/php-cs-fixer": "^2.4"
+        "friendsofphp/php-cs-fixer": "^3.11",
+        "michaelmoussa/php-coverage-checker": "^1.1",
+        "phpunit/phpunit": "^9.5",
+        "phpspec/prophecy": "^1.15",
+        "phpspec/prophecy-phpunit": "^2.0",
+        "phpstan/phpstan": "^0.12"
+    },
+    "scripts": {
+        "lint": [
+            "php-cs-fixer fix --ansi --verbose --show-progress=dots"
+        ],
+        "lint:check": [
+            "@lint --dry-run"
+        ],
+        "test:base": [
+            "php -d pcov.enabled=1 vendor/bin/phpunit --color=always"
+        ],
+        "test": [
+            "@test:base --log-junit build/junit.xml --coverage-xml build/coverage-xml --coverage-clover build/coverage-clover.xml"
+        ],
+        "test:with-html-coverage": [
+            "@test:base --coverage-html build/coverage-html"
+        ],
+        "test:coverage-checker": [
+            "php-coverage-checker build/coverage-clover.xml 92;"
+        ],
+        "test:check": [
+            "if [ -f build/coverage-clover.xml ]; then rm build/coverage-clover.xml; echo '>>> REMOVED OLD CLOVER.XML BUILD FILE!'; fi; # comment trick to allow composer params :D",
+            "@test",
+            "@test:coverage-checker"
+        ],
+        "check": [
+            "@lint:check",
+            "@test:check",
+            "@static-analysis"
+        ],
+        "static-analysis": [
+            "phpstan analyse --ansi --memory-limit=-1"
+        ]
     },
     "autoload": {
         "psr-4": {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Linio\Component\Input\Instantiator;
 
 use Linio\Component\Input\Constraint\Enum;
-use PHPUnit\Framework\TestCase;
+use Linio\Component\Input\TestCase;
 
 class ConstructInstantiatorTest extends TestCase
 {

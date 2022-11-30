@@ -10,7 +10,6 @@ use Linio\Component\Input\Constraint\Range;
 use Linio\Component\Input\Constraint\StringSize;
 use Linio\Component\Input\Instantiator\InstantiatorInterface;
 use Linio\Component\Input\Instantiator\PropertyInstantiator;
-use PHPUnit\Framework\TestCase;
 
 class TestUser
 {

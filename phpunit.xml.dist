@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
          backupGlobals="false"
          colors="true"
          convertErrorsToExceptions="true"
@@ -9,19 +8,19 @@
          convertWarningsToExceptions="true"
          stopOnFailure="false"
          bootstrap="./vendor/autoload.php">
-    <testsuites>
-        <testsuite name="Linio Framework Test Suite">
-            <directory>./tests</directory>
-        </testsuite>
-    </testsuites>
-    <filter>
-        <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
-            <exclude>
-                <file>src/Input/Constraint/ConstraintInterface.php</file>
-                <file>src/Input/Transformer/TransformerInterface.php</file>
-                <file>src/Input/InputTrait.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
+  <coverage includeUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+    <exclude>
+      <file>src/Input/Constraint/ConstraintInterface.php</file>
+      <file>src/Input/Transformer/TransformerInterface.php</file>
+      <file>src/Input/InputTrait.php</file>
+    </exclude>
+  </coverage>
+  <testsuites>
+    <testsuite name="Linio Framework Test Suite">
+      <directory>./tests</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input;
 
-use PHPUnit\Framework\TestCase;
-
 class SchemaTestInputHandler extends InputHandler
 {
     public function define(): void

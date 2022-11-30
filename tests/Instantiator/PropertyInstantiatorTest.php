@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Instantiator;
 
+use Linio\Component\Input\TestCase;
 use Linio\Component\Input\TestUser;
-use PHPUnit\Framework\TestCase;
 
 class PropertyInstantiatorTest extends TestCase
 {

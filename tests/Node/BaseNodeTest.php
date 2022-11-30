@@ -8,9 +8,9 @@ use Linio\Component\Input\Constraint\NotNull;
 use Linio\Component\Input\Constraint\Range;
 use Linio\Component\Input\Constraint\StringSize;
 use Linio\Component\Input\Exception\InvalidConstraintException;
+use Linio\Component\Input\TestCase;
 use Linio\Component\Input\Transformer\DateTimeTransformer;
 use Linio\Component\Input\TypeHandler;
-use PHPUnit\Framework\TestCase;
 
 class BaseNodeTest extends TestCase
 {
